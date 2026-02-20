@@ -11,6 +11,10 @@ type HeaderProps = {
   brand?: string;
 };
 
+
+
+
+
 export default function Header({ brand }: HeaderProps) {
   const container = useRef<HTMLElement | null>(null);
 
