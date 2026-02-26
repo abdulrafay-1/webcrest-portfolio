@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="fixed inset-x-0 bottom-0 z-0 h-[100svh] w-full  overflow-hidden bg-black">
+    <footer className="relative w-full overflow-hidden bg-black">
       {/* Purple glow / gradient */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-purple-600/35 blur-[120px]" />

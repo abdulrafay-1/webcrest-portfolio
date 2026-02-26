@@ -197,7 +197,7 @@ export default function HeroSection() {
                   duration: 1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="inline-block mr-[0.2em] text-gradient-primary"
+                className="mr-[0.2em] text-gradient-primary"
               >
                 {word}
               </motion.span>
