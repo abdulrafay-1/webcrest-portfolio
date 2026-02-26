@@ -34,7 +34,9 @@ export default function RootLayout({
       >
         {/* <Header /> */}
         <Navbar />
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <SmoothScrollProvider>
+          <CurtainLayout>{children}</CurtainLayout>
+        </SmoothScrollProvider>
         <Footer />
       </body>
     </html>

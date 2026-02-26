@@ -4,22 +4,22 @@
 @import "tailwindcss";
 
 :root {
-    --background: 0 0% 100%;
+  --background: 0 0% 100%;
   --foreground: 222 47% 11%;
 
-    --card: 0 0% 100%;
+  --card: 0 0% 100%;
   --card-foreground: 222 47% 11%;
 
   --popover: 0 0% 100%;
   --popover-foreground: 222 47% 11%;
 
-    --primary: 270 70% 55%;
+  --primary: 270 70% 55%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 220 14% 96%;
   --secondary-foreground: 222 47% 11%;
 
-    --muted: 220 14% 96%;
+  --muted: 220 14% 96%;
   --muted-foreground: 215 16% 47%;
 
   --accent: 280 80% 60%;
@@ -34,7 +34,7 @@
 
   --radius: 0.75rem;
 
-    --glow-primary: 270 70% 55%;
+  --glow-primary: 270 70% 55%;
   --glow-accent: 280 80% 60%;
   --surface-glass: 260 20% 96%;
 }
@@ -188,7 +188,7 @@
   }
 
   .glass-strong {
-    background: hsl(var(--surface-glass) / 0.8);
+    background: hsl(var(--surface-glass) / 0.2);
     backdrop-filter: blur(10px);
     border: 1px solid hsl(var(--border) / 0.3);
   }

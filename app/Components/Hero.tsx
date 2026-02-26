@@ -149,7 +149,7 @@ const line2 = ["Digital", "Experiences"];
 
 export default function HeroSection() {
   return (
-    <section className=" relative min-h-screen flex items-center justify-center overflow-hidden ">
+    <section className="bg-background relative min-h-screen flex items-center justify-center overflow-hidden ">
       <HeroOrb />
 
       {/* Gradient overlays */}

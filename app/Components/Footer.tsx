@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="relative w-full overflow-hidden bg-black">
+    <footer className="fixed inset-x-0 bottom-0 z-0 h-[100vh] w-full overflow-hidden bg-black">
       {/* Purple glow / gradient */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-purple-600/35 blur-[120px]" />
@@ -13,9 +13,10 @@ export default function Footer() {
         <div className="absolute inset-0 bg-gradient-to-b from-purple-500/25 via-transparent to-transparent" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-7xl px-6 pb-8 pt-10 md:px-10 md:pb-10 md:pt-14">
+      {/* ✅ Main container: full height + justify-between */}
+      <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-between px-6 pb-8 pt-10 md:px-10 md:pb-10 md:pt-14">
         {/* Top row */}
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between pt-12">
           {/* Left menu */}
           <div className="text-sm font-medium text-white/90">
             <div className="leading-6">
@@ -57,15 +58,15 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Big brand word */}
-        <div className="mt-10 md:mt-14">
+        {/* ✅ Big brand word (centered using flex-1) */}
+        <div className="flex flex-1 items-center">
           <h2 className="select-none text-[64px] font-semibold leading-[0.95] tracking-tight text-white/90 sm:text-[92px] md:text-[130px] lg:text-[168px]">
             Webcrest
           </h2>
         </div>
 
         {/* Bottom row */}
-        <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4 text-[11px] text-white/55 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 border-t border-white/10 pt-4 text-[11px] text-white/55 md:flex-row md:items-center md:justify-between">
           <p>Copyright © {new Date().getFullYear()} Webcrest Studio</p>
 
           <div className="flex flex-wrap items-center gap-4">
