@@ -33,9 +33,9 @@ export default function Navbar() {
       >
         <div className="section-padding flex items-center justify-between">
           <motion.img
-            src={"Webcrest-logo.png"}
+            src={"W-Logo.png"}
             alt="Web Crest"
-            className="h-8 md:h-20 cursor-pointer"
+            className="h-6 md:h-14 cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

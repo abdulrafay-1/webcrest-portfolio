@@ -8,7 +8,7 @@ export default function Page() {
         {" "}
         <Hero />
       </div>
-      .
+
       <div className="">
         <About />
       </div>
