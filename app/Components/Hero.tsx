@@ -148,13 +148,18 @@ const line1 = ["We", "Build"];
 const line2 = ["Digital", "Experiences"];
 
 export default function HeroSection() {
+  const whatsappNumber = "+923442667537";
+  const whatsappMessage =
+    "Hi Webcrest, I want to start a project. Please share your process and available time slots.";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
   return (
     <section className="bg-background relative min-h-screen flex items-center justify-center overflow-hidden ">
       <HeroOrb />
 
       {/* Gradient overlays */}
       <div className="absolute inset-0 gradient-mesh pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointe\r-events-none z-10" />
 
       <div className="relative z-10 section-padding text-center max-w-6xl mx-auto">
         <motion.div
@@ -225,9 +230,11 @@ export default function HeroSection() {
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() =>
-              document
-                .getElementById("work")
-                ?.scrollIntoView({ behavior: "smooth" })
+              window.dispatchEvent(
+                new CustomEvent("app:scroll-to", {
+                  detail: { target: "#work", offset: -20 },
+                }),
+              )
             }
             className="btn-magnetic font-body px-10 py-4 rounded-full bg-primary text-primary-foreground text-sm tracking-wider font-medium hover:shadow-[0_8px_40px_-8px_hsl(var(--primary)/0.5)] transition-shadow duration-500"
           >
@@ -237,11 +244,9 @@ export default function HeroSection() {
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() =>
-              document
-                .getElementById("contact")
-                ?.scrollIntoView({ behavior: "smooth" })
+              window.open(whatsappUrl, "_blank", "noopener,noreferrer")
             }
-            className="btn-magnetic font-body px-10 py-4 rounded-full border border-border/60 text-foreground text-sm tracking-wider font-medium hover:border-primary/40 hover:bg-primary/5 transition-all duration-500"
+            className="btn-magnetic cursor-pointer font-body px-10 py-4 rounded-full border border-border/60 text-foreground text-sm tracking-wider font-medium hover:border-primary/40 hover:bg-primary/5 transition-all duration-500"
           >
             Start a Project
           </motion.button>

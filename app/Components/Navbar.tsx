@@ -2,11 +2,19 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const navItems = ["Work", "Services", "About", "Contact"];
+const navItems = [
+  { label: "Work", id: "work" },
+  { label: "Services", id: "services" },
+  { label: "About", id: "about" },
+  { label: "Contact", id: "contact" },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const whatsappNumber = "+923442667537";
+  const whatsappMessage =
+    "Hi Webcrest, I want to book a call for my project. Please share available time slots.";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -15,10 +23,26 @@ export default function Navbar() {
   }, []);
 
   const scrollTo = (id: string) => {
-    document
-      .getElementById(id.toLowerCase())
-      ?.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById(id);
+    if (target) {
+      window.dispatchEvent(
+        new CustomEvent("app:scroll-to", {
+          detail: { target, offset: -20 },
+        }),
+      );
+    } else if (id === "contact") {
+      window.dispatchEvent(
+        new CustomEvent("app:scroll-to", {
+          detail: { target: document.documentElement.scrollHeight },
+        }),
+      );
+    }
     setMobileOpen(false);
+  };
+
+  const openWhatsApp = () => {
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -38,20 +62,26 @@ export default function Navbar() {
             className="h-6 md:h-14 cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() =>
+              window.dispatchEvent(
+                new CustomEvent("app:scroll-to", {
+                  detail: { target: 0 },
+                }),
+              )
+            }
           />
 
           <div className="hidden md:flex items-center gap-10">
             {navItems.map((item, i) => (
               <motion.button
-                key={item}
+                key={item.id}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + i * 0.08 }}
-                onClick={() => scrollTo(item)}
-                className="font-body text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors duration-300 relative group py-1"
+                onClick={() => scrollTo(item.id)}
+                className="font-body text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors duration-300 relative group py-1 cursor-pointer"
               >
-                {item}
+                {item.label}
                 <span className="absolute -bottom-0 left-0 w-0 h-[1.5px] bg-gradient-to-r from-primary to-accent transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
               </motion.button>
             ))}
@@ -61,8 +91,8 @@ export default function Navbar() {
               transition={{ delay: 0.7 }}
               whileHover={{ scale: 1.05, y: -1 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => scrollTo("contact")}
-              className="font-body text-sm px-6 py-2.5 rounded-full border border-primary/40 text-foreground hover:bg-primary/10 hover:border-primary/60 hover:shadow-[0_0_25px_-5px_hsl(var(--primary)/0.4)] transition-all duration-400"
+              onClick={openWhatsApp}
+              className="font-body cursor-pointer text-sm px-6 py-2.5 rounded-full border border-primary/40 text-foreground hover:bg-primary/10 hover:border-primary/60 hover:shadow-[0_0_25px_-5px_hsl(var(--primary)/0.4)] transition-all duration-400"
             >
               Book a Call
             </motion.button>
@@ -98,14 +128,14 @@ export default function Navbar() {
           >
             {navItems.map((item, i) => (
               <motion.button
-                key={item}
+                key={item.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                onClick={() => scrollTo(item)}
+                onClick={() => scrollTo(item.id)}
                 className="font-display text-4xl font-medium text-foreground hover:text-primary transition-colors duration-300"
               >
-                {item}
+                {item.label}
               </motion.button>
             ))}
           </motion.div>

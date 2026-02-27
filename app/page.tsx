@@ -15,6 +15,8 @@ export default function Page() {
       <div className="">
         <About />
       </div>
+
+      <div id="contact" className="h-px" aria-hidden="true"></div>
     </>
   );
 }

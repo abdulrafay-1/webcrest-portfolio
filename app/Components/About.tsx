@@ -17,9 +17,17 @@ export default function About({
     "Fast delivery with clear communication",
   ],
 }: AboutProps) {
+  const whatsappNumber = "+923442667537";
+  const whatsappMessage =
+    "Hi Webcrest, I want to discuss my project. Please share the next available slot.";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
   return (
-    <section className="w-full bg-background">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+    <section
+      id="about"
+      className="w-full min-h-screen bg-background flex items-center"
+    >
+      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
           <p className="font-body text-xs font-medium tracking-[0.4em] uppercase text-muted-foreground">
             Who we are
@@ -49,7 +57,9 @@ export default function About({
 
           <div className="mt-10 flex flex-wrap gap-3">
             <a
-              href="#contact"
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
               className="font-body inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-medium tracking-wider text-primary-foreground transition-shadow duration-500 hover:shadow-[0_8px_40px_-8px_hsl(var(--primary)/0.5)]"
             >
               Contact

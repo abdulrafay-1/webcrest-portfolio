@@ -5,12 +5,11 @@ import { useEffect, useRef } from "react";
 const projects = [
   {
     id: "01",
-    title: "Luminary",
+    title: "IusBlock",
     category: "Brand Identity & Web",
     year: "2024",
     tags: ["Design System", "Next.js", "Motion"],
-    image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2400&auto=format&fit=crop",
+    image: "projects/iusblock.png",
     accent: "hsl(var(--primary))",
     desc: "A complete visual identity for a luxury SaaS brand, from logo system to interactive design language.",
   },
@@ -752,7 +751,7 @@ export default function PortfolioSection() {
         <span className="pw-cursor-text">View</span>
       </div>
 
-      <section className="pw-section" ref={sectionRef}>
+      <section id="work" className="pw-section" ref={sectionRef}>
         {/* Intro */}
         <div className="pw-intro" ref={titleRef}>
           <div className="pw-intro-left">
