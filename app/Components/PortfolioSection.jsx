@@ -95,8 +95,6 @@ export default function PortfolioSection() {
       gsap.registerPlugin(ScrollTrigger);
 
       // ── Heading reveal ───────────────────────────────────────────
-      // "Our" chars animate with opacity — no gradient conflict
-      // "Portfolio" uses clipPath only — never touch opacity on gradient text
       const line1Chars =
         titleRef.current?.querySelectorAll(".pw-line1 .pw-char");
       const line2El = titleRef.current?.querySelector(".pw-line2");
@@ -118,7 +116,6 @@ export default function PortfolioSection() {
           );
         }
         if (line2El) {
-          // clipPath wipe — safe for -webkit-text-fill-color: transparent
           gsap.fromTo(
             line2El,
             { y: 60, clipPath: "inset(0 0 100% 0)" },
@@ -158,7 +155,6 @@ export default function PortfolioSection() {
 
         let shatterFired = false;
 
-        // Precompute tile positions for shatter
         const COLS = 8,
           ROWS = 5;
         const tileData = Array.from(tiles).map((tile, ti) => {
@@ -182,10 +178,8 @@ export default function PortfolioSection() {
           if (shatterFired) return;
           shatterFired = true;
 
-          // Show grid
           gsap.set(tileGrid, { visibility: "visible" });
 
-          // Tiles fly in from all edges and STAY (no reversal)
           tileData.forEach(({ tile, x, y, skewX, skewY, delay }) => {
             gsap.fromTo(
               tile,
@@ -203,7 +197,6 @@ export default function PortfolioSection() {
             );
           });
 
-          // Chromatic aberration flash
           if (chromaR) {
             gsap.set(chromaR, { visibility: "visible" });
             gsap.fromTo(
@@ -236,7 +229,6 @@ export default function PortfolioSection() {
           }
         };
 
-        // Pin card and zoom image — trigger shatter at 65% scroll progress
         ScrollTrigger.create({
           trigger: card,
           start: "top top",
@@ -245,13 +237,12 @@ export default function PortfolioSection() {
           scrub: 1,
           anticipatePin: 1,
           onUpdate: (self) => {
-            // Zoom image as scroll progresses
             gsap.set(img, {
               scale: 1 + self.progress * 1.3,
               z: self.progress * 350,
               transformOrigin: "center center",
             });
-            // Content fades early
+
             if (self.progress < 0.55) {
               gsap.set(content, {
                 opacity: 1 - self.progress * 1.6,
@@ -259,11 +250,11 @@ export default function PortfolioSection() {
               });
               gsap.set(num, { opacity: 1 - self.progress * 2 });
             }
-            // Fire shatter at 60% — one-shot, stays visible
+
             if (self.progress >= 0.6) {
               fireShatter();
             }
-            // Reset shatter if scrolled back up past threshold
+
             if (self.progress < 0.55 && shatterFired) {
               shatterFired = false;
               gsap.set(tileGrid, { visibility: "hidden" });
@@ -276,7 +267,6 @@ export default function PortfolioSection() {
           },
         });
 
-        // Content slides in on card enter
         gsap.fromTo(
           content,
           { y: 50, opacity: 0 },
@@ -301,43 +291,60 @@ export default function PortfolioSection() {
         );
       });
 
-      // ── Magnetic cursor ──────────────────────────────────────────
-      const cursor = document.querySelector(".pw-cursor");
-      if (cursor) {
-        let mx = 0,
-          my = 0,
-          cx = 0,
-          cy = 0,
-          raf;
-        const onMove = (e) => {
-          mx = e.clientX;
-          my = e.clientY;
-        };
-        window.addEventListener("mousemove", onMove);
-        const tick = () => {
-          cx += (mx - cx) * 0.12;
-          cy += (my - cy) * 0.12;
-          gsap.set(cursor, { x: cx, y: cy });
-          raf = requestAnimationFrame(tick);
-        };
-        tick();
-        sectionRef.current?.querySelectorAll(".pw-card").forEach((card) => {
-          card.addEventListener("mouseenter", () =>
+      // ── Magnetic cursor (DISABLED on small/coarse/no-hover devices) ─────────
+      const canHover =
+        typeof window !== "undefined" &&
+        window.matchMedia &&
+        window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+      if (canHover) {
+        const cursor = document.querySelector(".pw-cursor");
+        if (cursor) {
+          let mx = 0,
+            my = 0,
+            cx = 0,
+            cy = 0,
+            raf;
+
+          const onMove = (e) => {
+            mx = e.clientX;
+            my = e.clientY;
+          };
+          window.addEventListener("mousemove", onMove);
+
+          const tick = () => {
+            cx += (mx - cx) * 0.12;
+            cy += (my - cy) * 0.12;
+            gsap.set(cursor, { x: cx, y: cy });
+            raf = requestAnimationFrame(tick);
+          };
+          tick();
+
+          const onEnter = () =>
             gsap.to(cursor, {
               scale: 1,
               opacity: 1,
               duration: 0.4,
               ease: "back.out(2)",
-            }),
-          );
-          card.addEventListener("mouseleave", () =>
-            gsap.to(cursor, { scale: 0, opacity: 0, duration: 0.3 }),
-          );
-        });
-        cleanups.push(() => {
-          window.removeEventListener("mousemove", onMove);
-          cancelAnimationFrame(raf);
-        });
+            });
+          const onLeave = () =>
+            gsap.to(cursor, { scale: 0, opacity: 0, duration: 0.3 });
+
+          sectionRef.current?.querySelectorAll(".pw-card").forEach((card) => {
+            card.addEventListener("mouseenter", onEnter);
+            card.addEventListener("mouseleave", onLeave);
+
+            cleanups.push(() => {
+              card.removeEventListener("mouseenter", onEnter);
+              card.removeEventListener("mouseleave", onLeave);
+            });
+          });
+
+          cleanups.push(() => {
+            window.removeEventListener("mousemove", onMove);
+            cancelAnimationFrame(raf);
+          });
+        }
       }
 
       cleanups.push(() => ScrollTrigger.getAll().forEach((t) => t.kill()));
@@ -420,7 +427,6 @@ export default function PortfolioSection() {
           flex-shrink: 0;
         }
 
-        /* Chars — visible by default, GSAP animates on enter */
         .pw-char { display: inline-block; will-change: transform, opacity; }
 
         .pw-intro-heading {
@@ -434,7 +440,6 @@ export default function PortfolioSection() {
           overflow: visible;
         }
 
-        /* Portfolio line — uses the same gradient class as hero's "Digital Experiences" */
         .pw-line2 {
           display: block;
         }
@@ -520,7 +525,6 @@ export default function PortfolioSection() {
           display: block;
         }
 
-        /* Gradient uses background color so it blends with any theme */
         .pw-card-grad {
           position: absolute;
           inset: 0;
@@ -743,6 +747,28 @@ export default function PortfolioSection() {
           .pw-card-year { right: 24px; }
           .pw-card-progress { right: 16px; }
           .pw-footer { padding: 60px 24px 80px; flex-direction: column; align-items: flex-start; }
+
+          /* Remove hover visuals on small screens (even if browser emulates hover) */
+          .pw-footer-btn::before { opacity: 0 !important; }
+          .pw-footer-btn:hover::before { opacity: 0 !important; }
+          .pw-footer-btn:hover {
+            border-color: hsl(var(--border) / 0.6) !important;
+            box-shadow: none !important;
+          }
+          .pw-footer-btn:hover .pw-footer-ico { transform: none !important; }
+        }
+
+        /* Stronger: remove hover effects on touch/coarse pointers */
+        @media (hover: none), (pointer: coarse) {
+          .pw-cursor { display: none !important; }
+
+          .pw-footer-btn::before { opacity: 0 !important; transition: none !important; }
+          .pw-footer-btn:hover::before { opacity: 0 !important; }
+          .pw-footer-btn:hover {
+            border-color: hsl(var(--border) / 0.6) !important;
+            box-shadow: none !important;
+          }
+          .pw-footer-btn:hover .pw-footer-ico { transform: none !important; }
         }
       `}</style>
 
@@ -760,9 +786,7 @@ export default function PortfolioSection() {
               Selected Work
             </div>
             <div className="pw-intro-heading">
-              {/* "Our" — char split, opacity animation safe */}
               <div className="pw-line1">{splitChars("Our")}</div>
-              {/* "Portfolio" — whole-word clipPath wipe, never opacity */}
               <div className="pw-line2 text-gradient-primary">Portfolio</div>
             </div>
           </div>

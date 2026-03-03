@@ -121,6 +121,7 @@
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
+  --breakpoint-xs: 390px;
 }
 
 /* -------------------------------------------------------
@@ -331,4 +332,8 @@
     animation: none;
     transform: none;
   }
+}
+
+* {
+  user-select: none;
 }
