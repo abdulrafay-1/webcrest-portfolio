@@ -106,7 +106,7 @@ export default function Footer() {
         </div>
 
         {/* Brand word */}
-        <div className="mt-10 flex flex-1 items-end">
+        <div className="mt-0 md:mt-10 flex flex-1 items-end">
           <h2 className="select-none text-[72px] font-semibold leading-[0.9] tracking-tight text-white sm:text-[110px] md:text-[170px] lg:text-[200px]">
             Webcrest
           </h2>

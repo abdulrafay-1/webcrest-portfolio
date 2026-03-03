@@ -1,12 +1,13 @@
 "use client";
 
 import * as THREE from "three";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, ThreeEvent, useFrame } from "@react-three/fiber";
 import { Environment, Float } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
-const ORB_SCALE = 2.2;
+const ORB_SCALE_DESKTOP = 2.2;
+const ORB_SCALE_MOBILE = 1.55;
 
 const ORB_DETAIL = 6;
 
@@ -15,7 +16,7 @@ const MAGNET_STRENGTH = 0.45;
 
 const OFFSCREEN = 9999;
 
-function MagneticOrb() {
+function MagneticOrb({ baseScale }: { baseScale: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.MeshPhysicalMaterial>(null);
 
@@ -26,7 +27,7 @@ function MagneticOrb() {
     new THREE.Vector3(OFFSCREEN, OFFSCREEN, OFFSCREEN),
   );
   const targetScale = useRef(
-    new THREE.Vector3(ORB_SCALE, ORB_SCALE, ORB_SCALE),
+    new THREE.Vector3(baseScale, baseScale, baseScale),
   );
   const tmp = useMemo(() => new THREE.Vector3(), []);
 
@@ -126,9 +127,9 @@ function MagneticOrb() {
       : 0;
 
     targetScale.current.set(
-      ORB_SCALE * (1 - interaction * 0.08),
-      ORB_SCALE * (1 + interaction * 0.06),
-      ORB_SCALE * (1 + interaction * 0.1),
+      baseScale * (1 - interaction * 0.08),
+      baseScale * (1 + interaction * 0.06),
+      baseScale * (1 + interaction * 0.1),
     );
     mesh.scale.lerp(targetScale.current, 0.07);
 
@@ -143,7 +144,7 @@ function MagneticOrb() {
     <Float speed={1} rotationIntensity={0.2} floatIntensity={0.35}>
       <mesh
         ref={meshRef}
-        scale={ORB_SCALE}
+        scale={baseScale}
         onPointerMove={onPointerMove}
         onPointerOut={onPointerOut}
       >
@@ -198,6 +199,23 @@ function Particles() {
 }
 
 export default function HeroOrb() {
+  const [orbScale, setOrbScale] = useState(ORB_SCALE_DESKTOP);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+    const updateScale = () => {
+      setOrbScale(mobileQuery.matches ? ORB_SCALE_MOBILE : ORB_SCALE_DESKTOP);
+    };
+
+    updateScale();
+    mobileQuery.addEventListener("change", updateScale);
+
+    return () => {
+      mobileQuery.removeEventListener("change", updateScale);
+    };
+  }, []);
+
   return (
     <div className="absolute inset-0 z-0">
       <Canvas
@@ -218,7 +236,7 @@ export default function HeroOrb() {
         />
         <pointLight position={[-5, -5, 5]} intensity={0.5} color="#c084fc" />
 
-        <MagneticOrb />
+        <MagneticOrb baseScale={orbScale} />
         <Particles />
 
         <Environment preset="night" />

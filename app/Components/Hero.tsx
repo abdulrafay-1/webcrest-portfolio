@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import HeroOrb from "./HeroOrb";
@@ -8,14 +9,46 @@ const line1 = ["We", "Build"];
 const line2 = ["Digital", "Experiences"];
 
 export default function HeroSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [showOrb, setShowOrb] = useState(false);
+
+  useEffect(() => {
+    const sectionElement = sectionRef.current;
+    if (!sectionElement) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      setShowOrb(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowOrb(entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(sectionElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const whatsappNumber = "+923442667537";
   const whatsappMessage =
     "Hi Webcrest, I want to start a project. Please share your process and available time slots.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
-    <section className="bg-background relative min-h-[100svh] flex items-center justify-center overflow-hidden">
-      <HeroOrb />
+    <section
+      ref={sectionRef}
+      className="bg-background relative min-h-[100svh] flex items-center justify-center overflow-hidden"
+    >
+      {showOrb ? <HeroOrb /> : null}
 
       {/* Gradient overlays */}
       <div className="absolute inset-0 gradient-mesh pointer-events-none" />
@@ -140,4 +173,3 @@ export default function HeroSection() {
     </section>
   );
 }
-1

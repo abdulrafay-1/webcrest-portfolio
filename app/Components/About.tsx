@@ -14,11 +14,14 @@ type AboutProps = {
 
 export default function About({
   title = "About",
-  subtitle = "We build fast, reliable products with clean UI and solid backend foundations.",
+  subtitle = "We partner with startups and growing businesses to design and deliver digital products that are fast, secure, and easy to scale. From idea validation to launch and iteration, our team focuses on clean user experiences, stable architecture, and measurable business outcomes.",
   bullets = [
     "Mobile & Web app development",
     "Clean UI, scalable architecture",
     "Fast delivery with clear communication",
+    "API integrations, dashboards, and admin panels",
+    "Performance-focused builds with maintainable code",
+    "Post-launch support, improvements, and long-term collaboration",
   ],
 }: AboutProps) {
   const whatsappNumber = "+923442667537";
@@ -135,7 +138,7 @@ export default function About({
 
           {/* Title — character split */}
           <h2
-            className="font-display mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl overflow-hidden"
+            className="font-display mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl overflow-hidden"
             style={{ perspective: "600px" }}
             aria-label={title}
           >
@@ -157,7 +160,7 @@ export default function About({
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className="font-body mt-4 text-base leading-7 text-muted-foreground"
+            className="font-body mt-4 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8 lg:text-xl"
             style={{ opacity: 0 }}
           >
             {subtitle}
@@ -182,7 +185,7 @@ export default function About({
                   aria-hidden="true"
                   style={{ opacity: 0, transform: "scale(0)" }}
                 />
-                <span className="font-body text-sm text-foreground/80 sm:text-base">
+                <span className="font-body text-sm text-foreground/80 sm:text-base lg:text-lg">
                   {item}
                 </span>
               </li>
@@ -199,13 +202,13 @@ export default function About({
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="font-body inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-medium tracking-wider text-primary-foreground transition-shadow duration-500 hover:shadow-[0_8px_40px_-8px_hsl(var(--primary)/0.5)]"
+              className="font-body inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-medium tracking-wider text-primary-foreground transition-shadow duration-500 hover:shadow-[0_8px_40px_-8px_hsl(var(--primary)/0.5)] sm:text-base"
             >
               Contact
             </a>
             <a
               href="#work"
-              className="font-body inline-flex items-center justify-center rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-sm font-medium tracking-wider text-foreground transition-all duration-500 hover:border-primary/40 hover:bg-primary/5"
+              className="font-body inline-flex items-center justify-center rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-sm font-medium tracking-wider text-foreground transition-all duration-500 hover:border-primary/40 hover:bg-primary/5 sm:text-base"
             >
               View Work
             </a>
