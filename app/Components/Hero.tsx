@@ -70,7 +70,7 @@ export default function HeroSection() {
         {/* Headline */}
         <h1
           className="font-display font-semibold leading-[0.92] tracking-[-0.03em] mb-8 sm:mb-10
-          text-[clamp(3.2rem,13vw,9rem)]"
+          text-[clamp(2.6rem,9.2vw,7rem)] xl:text-[clamp(3rem,7.8vw,7.5rem)]"
         >
           <span className="block">
             {line1.map((word, i) => (

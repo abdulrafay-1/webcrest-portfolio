@@ -455,10 +455,10 @@ export default function PortfolioSection() {
         .pw-eyebrow { display: flex; align-items: center; gap: 12px; font-family: var(--font-body, sans-serif); font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: hsl(var(--muted-foreground)); margin-bottom: 20px; border: 1px solid hsl(var(--border) / 0.4); border-radius: 100px; padding: 6px 16px; width: fit-content; }
         .pw-eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: hsl(var(--primary)); flex-shrink: 0; }
         .pw-char { display: inline-block; will-change: transform, opacity; }
-        .pw-intro-heading { font-family: var(--font-display, sans-serif); font-size: clamp(70px, 9vw, 136px); font-weight: 600; line-height: 0.9; letter-spacing: -0.03em; color: hsl(var(--foreground)); perspective: 800px; overflow: visible; }
+        .pw-intro-heading { font-family: var(--font-display, sans-serif); font-size: clamp(52px, 7vw, 104px); font-weight: 600; line-height: 0.9; letter-spacing: -0.03em; color: hsl(var(--foreground)); perspective: 800px; overflow: visible; }
         .pw-line2 { display: block; }
         .pw-intro-right { text-align: right; flex-shrink: 0; padding-bottom: 8px; }
-        .pw-total { font-family: var(--font-display, sans-serif); font-size: clamp(48px, 5vw, 76px); color: transparent; -webkit-text-stroke: 1px hsl(var(--border)); display: block; line-height: 1; font-weight: 600; }
+        .pw-total { font-family: var(--font-display, sans-serif); font-size: clamp(38px, 3.8vw, 62px); color: transparent; -webkit-text-stroke: 1px hsl(var(--border)); display: block; line-height: 1; font-weight: 600; }
         .pw-intro-sub { font-family: var(--font-body, sans-serif); font-size: 11px; color: hsl(var(--muted-foreground)); letter-spacing: 0.06em; margin-top: 6px; text-transform: uppercase; }
         .pw-scroll-hint { padding: 0 60px 52px; display: flex; align-items: center; gap: 16px; max-width: 1400px; margin: 0 auto; }
         .pw-scroll-hint-line { width: 48px; height: 1px; background: hsl(var(--border)); }
@@ -478,7 +478,7 @@ export default function PortfolioSection() {
         .pw-card-num { font-family: var(--font-body, sans-serif); font-size: 10px; letter-spacing: 0.4em; color: hsl(var(--muted-foreground) / 0.6); margin-bottom: 18px; will-change: opacity, transform; text-transform: uppercase; }
         .pw-card-cat { font-family: var(--font-body, sans-serif); font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: hsl(var(--muted-foreground)); margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
         .pw-card-cat-line { display: inline-block; height: 1px; width: 32px; background: hsl(var(--primary)); flex-shrink: 0; }
-        .pw-card-title { font-family: var(--font-display, sans-serif); font-size: clamp(58px, 7.5vw, 112px); font-weight: 600; line-height: 0.92; letter-spacing: -0.03em; color: hsl(var(--foreground)); margin-bottom: 18px; }
+        .pw-card-title { font-family: var(--font-display, sans-serif); font-size: clamp(44px, 5.8vw, 84px); font-weight: 600; line-height: 0.92; letter-spacing: -0.03em; color: hsl(var(--foreground)); margin-bottom: 18px; }
         .pw-card-desc { font-family: var(--font-body, sans-serif); font-size: 14px; line-height: 1.65; color: hsl(var(--muted-foreground)); max-width: 440px; margin-bottom: 28px; font-weight: 300; }
         .pw-card-tags { display: flex; gap: 7px; flex-wrap: wrap; }
         .pw-card-tag { font-family: var(--font-body, sans-serif); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 5px 13px; border-radius: 100px; color: hsl(var(--foreground) / 0.7); border: 1px solid hsl(var(--border) / 0.6); backdrop-filter: blur(4px); }
