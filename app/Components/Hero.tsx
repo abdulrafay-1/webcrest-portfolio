@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, MessageCircle, X } from "lucide-react";
 import HeroOrb from "./HeroOrb";
+import Image from "next/image";
 
 const line1 = ["We", "Build"];
 const line2 = ["Digital", "Experiences"];
@@ -11,7 +12,7 @@ const line2 = ["Digital", "Experiences"];
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [showOrb, setShowOrb] = useState(false);
-
+  const [whatsappOpen, setWhatsappOpen] = useState(false);
   useEffect(() => {
     const sectionElement = sectionRef.current;
     if (!sectionElement) return;
@@ -100,7 +101,7 @@ export default function HeroSection() {
                   duration: 1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="inline-block mr-[0.18em] text-gradient-primary"
+                className="mr-[0.18em] text-gradient-primary"
               >
                 {word}
               </motion.span>
@@ -170,6 +171,60 @@ export default function HeroSection() {
           <ArrowDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground/40" />
         </motion.div>
       </motion.div>
+      {/* WhatsApp Floating Popover */}
+      <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-3">
+        {/* Popover Panel */}
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={
+            whatsappOpen
+              ? { opacity: 1, y: 0, scale: 1 }
+              : { opacity: 0, y: 20, scale: 0.95 }
+          }
+          transition={{ duration: 0.25 }}
+          className={`origin-bottom-right ${
+            whatsappOpen ? "pointer-events-auto" : "pointer-events-none"
+          }`}
+        >
+          <div className="w-72 rounded-2xl bg-background/95 backdrop-blur-xl border border-border/50 shadow-2xl p-5">
+            <h3 className="font-display text-sm font-semibold text-foreground mb-2">
+              Start a Conversation
+            </h3>
+            <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+              Have a project in mind? Let’s discuss your requirements and
+              timeline.
+            </p>
+
+            <button
+              onClick={() =>
+                window.open(whatsappUrl, "_blank", "noopener,noreferrer")
+              }
+              className="w-full rounded-full bg-green-500 hover:bg-green-600 text-white text-xs font-medium py-3 transition-all duration-300"
+            >
+              Chat on WhatsApp
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Floating Button */}
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setWhatsappOpen((prev) => !prev)}
+          className="h-14 w-14 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-[0_8px_30px_rgba(0,0,0,0.25)] flex items-center justify-center transition-all duration-300"
+        >
+          {whatsappOpen ? (
+            <X size={22} />
+          ) : (
+            <Image
+              src="/whatsapp.png"
+              alt="whatsapp icon"
+              width={120}
+              height={120}
+            />
+          )}
+        </motion.button>
+      </div>
     </section>
   );
 }

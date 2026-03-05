@@ -1,11 +1,12 @@
 import About from "./Components/About";
+import CurtainLayout from "./Components/CurtainLayout";
 import Hero from "./Components/Hero";
 import PortfolioSection from "./Components/PortfolioSection.jsx";
 import ServicesSection from "./Components/ServicesSection";
 
 export default function Page() {
   return (
-    <>
+    <CurtainLayout>
       <div className="">
         <Hero />
         <PortfolioSection />
@@ -17,6 +18,6 @@ export default function Page() {
       </div>
 
       <div id="contact" className="h-px" aria-hidden="true"></div>
-    </>
+    </CurtainLayout>
   );
 }

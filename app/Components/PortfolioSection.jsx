@@ -15,48 +15,45 @@ const projects = [
   },
   {
     id: "02",
-    title: "Verdant",
-    category: "E-Commerce Experience",
+    title: "Meet Coin",
+    category: "A Stable Crypto E-Commerce Token",
     year: "2024",
-    tags: ["Shopify", "3D", "WebAR"],
-    image:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2400&auto=format&fit=crop",
+    tags: ["Cryptocurrency", "Tokens", "Stable"],
+    image: "/projects/meetcoin.png",
     accent: "hsl(var(--primary))",
     desc: "An immersive e-commerce platform with real-time 3D product previews and augmented reality try-on.",
   },
   {
     id: "03",
-    title: "Obsidian",
-    category: "SaaS Dashboard",
+    title: "PagoMeet",
+    category: "BlockChain & Crypto Wallet",
     year: "2023",
-    tags: ["React", "WebGL", "Real-time"],
-    image:
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2400&auto=format&fit=crop",
+    tags: ["React Native", "WebGL", "Real-time"],
+    image: "/projects/pagomeet.png",
     accent: "hsl(var(--primary))",
     desc: "A data-dense operations platform that turns complex infrastructure metrics into beautiful clarity.",
   },
   {
     id: "04",
-    title: "Solstice",
-    category: "Interactive Installation",
+    title: "MercadoMeet",
+    category: "A detailed website for Mercado Meet Ecommerce Mobile App",
     year: "2023",
     tags: ["Three.js", "GLSL", "Canvas"],
-    image:
-      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2400&auto=format&fit=crop",
+    image: "/projects/mercadomeet.png",
     accent: "hsl(var(--primary))",
     desc: "A generative art installation that reacts to visitor movement, blending code with physical space.",
   },
-  {
-    id: "05",
-    title: "Axiom",
-    category: "Fintech Platform",
-    year: "2023",
-    tags: ["Dashboard", "D3.js", "API"],
-    image:
-      "https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2400&auto=format&fit=crop",
-    accent: "hsl(var(--primary))",
-    desc: "Next-generation trading interface with sub-millisecond data visualization and predictive analytics.",
-  },
+  // {
+  //   id: "05",
+  //   title: "Axiom",
+  //   category: "Fintech Platform",
+  //   year: "2023",
+  //   tags: ["Dashboard", "D3.js", "API"],
+  //   image:
+  //     "https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2400&auto=format&fit=crop",
+  //   accent: "hsl(var(--primary))",
+  //   desc: "Next-generation trading interface with sub-millisecond data visualization and predictive analytics.",
+  // },
 ];
 
 export default function PortfolioSection() {
@@ -314,15 +311,15 @@ export default function PortfolioSection() {
         ScrollTrigger.create({
           trigger: card,
           start: "top top",
-          end: "+=130%",
+          end: "+=100%",
           pin: true,
-          scrub: 1,
+          scrub: 0.5,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
           onUpdate: (self) => {
             // Image zoom
             gsap.set(img, {
-              scale: 1 + self.progress * 1.3,
-              z: self.progress * 350,
+              scale: 1 + self.progress * 0.25,
               transformOrigin: "center center",
             });
 
@@ -466,7 +463,7 @@ export default function PortfolioSection() {
         .pw-scroll-hint-arrow { animation: pw-bob 2s ease-in-out infinite; }
         @keyframes pw-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
         .pw-cards { position: relative; }
-        .pw-card { position: relative; width: 100%; height: 100vh; overflow: hidden; background: hsl(var(--background)); perspective: 500px; }
+        .pw-card { position: relative; width: 100%; height: 100vh; overflow: hidden; background: hsl(var(--background)); isolation: isolate; }
         .pw-card-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; transform-origin: center center; }
         .pw-card-img { width: 100%; height: 100%; object-fit: cover; object-position: center; transform-origin: center center; will-change: transform; display: block; }
         .pw-card-grad { position: absolute; inset: 0; background: linear-gradient(to right, hsl(var(--background) / 0.82) 0%, hsl(var(--background) / 0.1) 55%, transparent 100%), linear-gradient(to top, hsl(var(--background) / 0.65) 0%, transparent 45%); z-index: 1; }
@@ -557,7 +554,7 @@ export default function PortfolioSection() {
             <div key={p.id} className="pw-card">
               <div className="pw-card-bg">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.image} alt={p.title} className="pw-card-img" />
+                <img src={p.image} alt={p.title} className="pw-card-img" loading="eager" />
               </div>
               <div className="pw-card-grad" />
               <div className="pw-tile-grid">
