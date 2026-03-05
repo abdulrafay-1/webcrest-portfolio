@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 
 const navItems = [
   { label: "Portfolio", href: "/portfolio" },
-  { label: "Services", id: "services" }, // still scroll
+  { label: "Services", id: "services" },
   { label: "About", href: "/about" },
-  { label: "Contact", id: "contact" }, // still scroll
+  { label: "Contact", id: "contact" },
 ];
 
 export default function Navbar() {
@@ -26,28 +26,6 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // -------- OLD FULL SCROLL NAVIGATION (COMMENTED OUT) --------
-  /*
-  const scrollTo = (id: string) => {
-    const target = document.getElementById(id);
-    if (target) {
-      window.dispatchEvent(
-        new CustomEvent("app:scroll-to", {
-          detail: { target, offset: -20 },
-        })
-      );
-    } else if (id === "contact") {
-      window.dispatchEvent(
-        new CustomEvent("app:scroll-to", {
-          detail: { target: document.documentElement.scrollHeight },
-        })
-      );
-    }
-    setMobileOpen(false);
-  };
-  */
-  // ------------------------------------------------------------
 
   const scrollTo = (id: string) => {
     const target = document.getElementById(id);
@@ -76,7 +54,7 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "glass-strong py-2" : "py-6"
+          scrolled ? "py-2" : "py-4"
         }`}
       >
         <div className="section-padding flex items-center justify-between">
@@ -105,7 +83,7 @@ export default function Navbar() {
                     className="font-body text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors duration-300 relative group py-1"
                   >
                     {item.label}
-                    <span className="absolute -bottom-0 left-0 w-0 h-[1.5px] bg-gradient-to-r from-primary to-accent transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
+                    <span className="absolute left-0 -bottom-[2px] w-0 h-[1.5px] bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" />
                   </Link>
                 </motion.div>
               ) : (
@@ -118,21 +96,22 @@ export default function Navbar() {
                   className="font-body text-sm tracking-wide text-muted-foreground hover:text-foreground transition-colors duration-300 relative group py-1 cursor-pointer"
                 >
                   {item.label}
-                  <span className="absolute -bottom-0 left-0 w-0 h-[1.5px] bg-gradient-to-r from-primary to-accent transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
+                  <span className="absolute left-0 -bottom-[2px] w-0 h-[1.5px] bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" />
                 </motion.button>
               ),
             )}
 
+            {/* Book a Call Button */}
             <motion.button
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.7 }}
-              whileHover={{ scale: 1.05, y: -1 }}
-              whileTap={{ scale: 0.97 }}
               onClick={openWhatsApp}
-              className="font-body cursor-pointer text-sm px-6 py-2.5 rounded-full border border-primary/40 text-foreground hover:bg-primary/10 hover:border-primary/60 hover:shadow-[0_0_25px_-5px_hsl(var(--primary)/0.4)] transition-all duration-400"
+              className="group relative cursor-pointer overflow-hidden rounded-full border border-purple-400/40 px-6 py-2.5 text-sm font-medium text-white"
             >
-              Book a Call
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                Book a Call
+              </span>
+
+              {/* Hover Fill */}
+              <span className="absolute left-0 bottom-[-3.2vw] h-[100%] w-full scale-110 rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:bottom-0" />
             </motion.button>
           </div>
 
@@ -164,7 +143,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 glass-strong flex flex-col items-center justify-center gap-8"
+            className="fixed inset-0 z-40 bg-black/90 flex flex-col items-center justify-center gap-8"
           >
             {navItems.map((item, i) =>
               item.href ? (
@@ -177,7 +156,7 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="font-display text-4xl font-medium text-foreground hover:text-primary transition-colors duration-300"
+                    className="text-4xl font-medium hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -189,7 +168,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
                   onClick={() => scrollTo(item.id!)}
-                  className="font-display text-4xl font-medium text-foreground hover:text-primary transition-colors duration-300"
+                  className="text-4xl font-medium hover:text-primary transition-colors"
                 >
                   {item.label}
                 </motion.button>

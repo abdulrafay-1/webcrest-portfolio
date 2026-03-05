@@ -30,6 +30,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <svg style={{ display: "none" }}>
+          <filter
+            id="liquidGlass"
+            colorInterpolationFilters="linearRGB"
+            filterUnits="objectBoundingBox"
+            primitiveUnits="userSpaceOnUse"
+          >
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="SourceGraphic"
+              scale="18"
+              xChannelSelector="R"
+              yChannelSelector="B"
+              result="displacement"
+            />
+            <feGaussianBlur stdDeviation="3" in="displacement" result="blur" />
+          </filter>
+        </svg>
         {/* <Header /> */}
         <Navbar />
         <SmoothScrollProvider>{children}</SmoothScrollProvider>

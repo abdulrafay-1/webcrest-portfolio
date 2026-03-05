@@ -232,7 +232,7 @@ const AboutPage = () => {
           powerful digital product.
         </p>
 
-        <button className="bg-purple-600 hover:bg-purple-700 px-10 py-4 rounded-lg font-semibold">
+        <button className="bg-purple-600 hover:bg-purple-700 px-10 py-4 rounded-full font-semibold">
           Start Your Project
         </button>
       </section>

@@ -147,9 +147,15 @@ export default function HeroSection() {
             onClick={() =>
               window.open(whatsappUrl, "_blank", "noopener,noreferrer")
             }
-            className="btn-magnetic cursor-pointer w-full xs:w-auto sm:w-auto font-body px-8 sm:px-10 py-3.5 sm:py-4 rounded-full border border-border/60 text-foreground text-xs sm:text-sm tracking-wider font-medium hover:border-primary/40 hover:bg-primary/5 transition-all duration-500"
+            className="group relative overflow-hidden btn-magnetic cursor-pointer w-full xs:w-auto sm:w-auto font-body px-8 sm:px-10 py-3.5 sm:py-4 rounded-full border border-border/60 text-foreground text-xs sm:text-sm tracking-wider font-medium hover:border-primary/40 transition-all duration-500"
           >
-            Start a Project
+            {/* Text */}
+            <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+              Start a Project
+            </span>
+
+            {/* Liquid Hover Fill */}
+            <span className="absolute left-0 h-[120%] bottom-[-5.2vw] w-full scale-[1.2] rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:bottom-0" />
           </motion.button>
         </motion.div>
       </div>
