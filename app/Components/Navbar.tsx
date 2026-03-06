@@ -3,19 +3,20 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const navItems = [
   { label: "Portfolio", href: "/portfolio" },
   { label: "Services", id: "services" },
   { label: "About", href: "/about" },
-  { label: "Contact", id: "contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const whatsappNumber = "+923442667537";
   const whatsappMessage =
@@ -28,6 +29,12 @@ export default function Navbar() {
   }, []);
 
   const scrollTo = (id: string) => {
+    if (pathname !== "/") {
+      router.push(`/#${id}`);
+      setMobileOpen(false);
+      return;
+    }
+
     const target = document.getElementById(id);
     if (!target) return;
 
@@ -54,7 +61,9 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "py-2" : "py-4"
+          scrolled
+            ? "py-2 bg-white/10 backdrop-blur-md border-b border-white/10 shadow-lg"
+            : "py-4 bg-transparent"
         }`}
       >
         <div className="section-padding flex items-center justify-between">

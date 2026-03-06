@@ -9,6 +9,11 @@ const AboutPage = () => {
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   const parallaxBg = useRef<HTMLDivElement | null>(null);
 
+  const whatsappNumber = "+923442667537";
+  const whatsappMessage =
+    "Hi Webcrest, I want to discuss my project. Please share the next available slot.";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -232,9 +237,14 @@ const AboutPage = () => {
           powerful digital product.
         </p>
 
-        <button className="bg-purple-600 hover:bg-purple-700 px-10 py-4 rounded-full font-semibold">
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="bg-purple-600 hover:bg-purple-700 px-10 py-4 rounded-full font-semibold inline-block"
+        >
           Start Your Project
-        </button>
+        </a>
       </section>
     </main>
   );

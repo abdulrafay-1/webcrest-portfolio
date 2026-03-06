@@ -244,7 +244,7 @@ export default function ServicesSection() {
         ScrollTrigger.create({
           trigger: card,
           containerAnimation: st, // ties to the horizontal scroll
-          start: "left 90%",
+          start: "left 80%",
           once: true,
           onEnter: () => {
             gsap.to(inner, {
@@ -689,7 +689,7 @@ export default function ServicesSection() {
       `}</style>
 
       {/* Pinned wrapper */}
-      <div className="sv-wrap" ref={wrapRef}>
+      <div id="services" className="sv-wrap" ref={wrapRef}>
         {/* Sticky header */}
         <div className="sv-header">
           <div className="sv-eyebrow">
@@ -710,7 +710,9 @@ export default function ServicesSection() {
           <div className="sv-panel-intro">
             <div className="sv-heading" ref={titleRef}>
               <div className="sv-line1 text-2xl">{splitChars("Our")}</div>
-              <div className="sv-line2 text-gradient-primary text-5xl font-semibold">Services</div>
+              <div className="sv-line2 text-gradient-primary text-5xl font-semibold">
+                Services
+              </div>
             </div>
             <p className="sv-panel-intro-sub">
               From concept to launch — we cover every discipline needed to build
