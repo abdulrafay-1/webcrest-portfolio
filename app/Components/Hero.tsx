@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowDown, MessageCircle, X } from "lucide-react";
 import HeroOrb from "./HeroOrb";
 import Image from "next/image";
+import { openCalendlyPopup } from "@/app/lib/calendly";
 
 const line1 = ["We", "Build"];
 const line2 = ["Digital", "Experiences"];
@@ -43,6 +44,7 @@ export default function HeroSection() {
   const whatsappMessage =
     "Hi Webcrest, I want to start a project. Please share your process and available time slots.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const calendlyUrl = "https://calendly.com/webcrestllc/30min";
 
   return (
     <section
@@ -144,10 +146,9 @@ export default function HeroSection() {
           <motion.button
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() =>
-              window.open(whatsappUrl, "_blank", "noopener,noreferrer")
-            }
+            onClick={() => openCalendlyPopup({ url: calendlyUrl })}
             className="group relative overflow-hidden btn-magnetic cursor-pointer w-full xs:w-auto sm:w-auto font-body px-8 sm:px-10 py-3.5 sm:py-4 rounded-full border border-border/60 text-foreground text-xs sm:text-sm tracking-wider font-medium hover:border-primary/40 transition-all duration-500"
+            aria-label="Open Calendly booking modal"
           >
             {/* Text */}
             <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
@@ -155,7 +156,7 @@ export default function HeroSection() {
             </span>
 
             {/* Liquid Hover Fill */}
-            <span className="absolute left-0 h-[120%] bottom-[-5.2vw] w-full scale-[1.2] rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:bottom-0" />
+            <span className="pointer-events-none absolute left-0 h-[120%] bottom-[-5.2vw] w-full scale-[1.2] rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:bottom-0" />
           </motion.button>
         </motion.div>
       </div>
