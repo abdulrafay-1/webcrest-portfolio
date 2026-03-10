@@ -156,7 +156,7 @@ export default function HeroSection() {
             </span>
 
             {/* Liquid Hover Fill */}
-            <span className="pointer-events-none absolute left-0 h-[120%] bottom-[-5.2vw] w-full scale-[1.2] rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:bottom-0" />
+            <span className="pointer-events-none hidden md:block md:absolute left-0 h-[120%] md:bottom-[-11.5vh] w-full scale-[1.2] rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:bottom-0" />
           </motion.button>
         </motion.div>
       </div>

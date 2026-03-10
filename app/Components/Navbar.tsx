@@ -124,7 +124,7 @@ export default function Navbar() {
               </span>
 
               {/* Hover Fill */}
-              <span className="pointer-events-none absolute left-0 bottom-[-3.2vw] h-[100%] w-full scale-110 rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:bottom-0" />
+              <span className="pointer-events-none absolute left-0 bottom-[-6.5vh] h-[100%] w-full scale-110 rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:bottom-0" />
             </motion.button>
           </div>
 
