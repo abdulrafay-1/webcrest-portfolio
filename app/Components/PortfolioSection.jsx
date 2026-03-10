@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 const projects = [
   {
@@ -66,29 +68,6 @@ export default function PortfolioSection() {
     const init = async () => {
       if (typeof window === "undefined") return;
 
-      if (!window.gsap) {
-        await new Promise((res, rej) => {
-          const s = document.createElement("script");
-          s.src =
-            "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
-          s.onload = res;
-          s.onerror = rej;
-          document.head.appendChild(s);
-        });
-      }
-      if (!window.ScrollTrigger) {
-        await new Promise((res, rej) => {
-          const s = document.createElement("script");
-          s.src =
-            "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js";
-          s.onload = res;
-          s.onerror = rej;
-          document.head.appendChild(s);
-        });
-      }
-
-      const { gsap } = window;
-      const { ScrollTrigger } = window;
       gsap.registerPlugin(ScrollTrigger);
 
       // ── Heading reveal ───────────────────────────────────────────
@@ -418,11 +397,17 @@ export default function PortfolioSection() {
         }
       }
 
-      cleanups.push(() => ScrollTrigger.getAll().forEach((t) => t.kill()));
+      // cleanups.push(() => ScrollTrigger.getAll().forEach((t) => t.kill()));
     };
 
-    init();
-    return () => cleanups.forEach((fn) => fn());
+    const ctx = gsap.context(() => {
+      init();
+    }, sectionRef);
+
+    return () => {
+      cleanups.forEach((fn) => fn());
+      ctx.revert();
+    };
   }, []);
 
   const splitChars = (text) =>
@@ -554,7 +539,12 @@ export default function PortfolioSection() {
             <div key={p.id} className="pw-card">
               <div className="pw-card-bg">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.image} alt={p.title} className="pw-card-img" loading="eager" />
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="pw-card-img"
+                  loading="eager"
+                />
               </div>
               <div className="pw-card-grad" />
               <div className="pw-tile-grid">

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 const services = [
   {
@@ -130,29 +132,6 @@ export default function ServicesSection() {
     const init = async () => {
       if (typeof window === "undefined") return;
 
-      if (!window.gsap) {
-        await new Promise((res, rej) => {
-          const s = document.createElement("script");
-          s.src =
-            "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
-          s.onload = res;
-          s.onerror = rej;
-          document.head.appendChild(s);
-        });
-      }
-      if (!window.ScrollTrigger) {
-        await new Promise((res, rej) => {
-          const s = document.createElement("script");
-          s.src =
-            "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js";
-          s.onload = res;
-          s.onerror = rej;
-          document.head.appendChild(s);
-        });
-      }
-
-      const { gsap } = window;
-      const { ScrollTrigger } = window;
       gsap.registerPlugin(ScrollTrigger);
 
       const track = trackRef.current;
@@ -322,11 +301,17 @@ export default function ServicesSection() {
         });
       }
 
-      cleanups.push(() => ScrollTrigger.getAll().forEach((t) => t.kill()));
+      // cleanups.push(() => ScrollTrigger.getAll().forEach((t) => t.kill()));
     };
 
-    init();
-    return () => cleanups.forEach((fn) => fn());
+    const ctx = gsap.context(() => {
+      init();
+    }, wrapRef);
+
+    return () => {
+      cleanups.forEach((fn) => fn());
+      ctx.revert();
+    };
   }, []);
 
   const splitChars = (text) =>

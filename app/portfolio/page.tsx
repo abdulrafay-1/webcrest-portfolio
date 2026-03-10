@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 const projects = [
   {
@@ -66,29 +68,6 @@ export default function PortfolioSection() {
     const init = async () => {
       if (typeof window === "undefined") return;
 
-      if (!(window as any).gsap) {
-        await new Promise<void>((res, rej) => {
-          const s = document.createElement("script");
-          s.src =
-            "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
-          s.onload = () => res();
-          s.onerror = rej;
-          document.head.appendChild(s);
-        });
-      }
-      if (!(window as any).ScrollTrigger) {
-        await new Promise<void>((res, rej) => {
-          const s = document.createElement("script");
-          s.src =
-            "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js";
-          s.onload = () => res();
-          s.onerror = rej;
-          document.head.appendChild(s);
-        });
-      }
-
-      const gsap = (window as any).gsap;
-      const ScrollTrigger = (window as any).ScrollTrigger;
       gsap.registerPlugin(ScrollTrigger);
 
       // ── Easing helpers ────────────────────────────────────────────────
@@ -330,13 +309,19 @@ export default function PortfolioSection() {
         }
       }
 
-      cleanups.push(() =>
-        ScrollTrigger.getAll().forEach((t: { kill: () => void }) => t.kill()),
-      );
+      // cleanups.push(() =>
+      //   ScrollTrigger.getAll().forEach((t: { kill: () => void }) => t.kill()),
+      // );
     };
 
-    init();
-    return () => cleanups.forEach((fn) => fn());
+    const ctx = gsap.context(() => {
+      init();
+    }, sectionRef);
+
+    return () => {
+      cleanups.forEach((fn) => fn());
+      ctx.revert();
+    };
   }, []);
 
   const splitWords = (text: string) =>
