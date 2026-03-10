@@ -65,7 +65,7 @@ export default function Navbar() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "py-2 border-b border-primary/20 bg-gradient-to-r from-primary/15 via-accent/10 to-secondary/40 backdrop-blur-xl shadow-[0_10px_40px_-20px_hsl(var(--glow-primary)/0.7)]"
-            : "py-4 bg-gradient-to-r from-background/70 via-background/50 to-background/70"
+            : "py-4"
         }`}
       >
         <div className="section-padding flex items-center justify-between">
