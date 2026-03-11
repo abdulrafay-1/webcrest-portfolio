@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 const navLinks = [
   { href: "/services", label: "Services" },
@@ -9,11 +10,15 @@ const navLinks = [
 ];
 
 const socialLinks = [
+  { href: "mailto:webcrestllc@gmail.com", label: "Email" },
   { href: "https://instagram.com", label: "Instagram" },
   { href: "https://linkedin.com", label: "LinkedIn" },
 ];
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const mailtoLink = `mailto:webcrestllc@gmail.com?subject=Insider Notes Subscription&body=Hi, I would like to subscribe to the Insider Notes with the email: ${encodeURIComponent(email)}`;
+
   return (
     <footer className="fixed inset-x-0 top-[10] z-0 h-[100vh] w-full overflow-hidden bg-black">
       {/* Background */}
@@ -79,25 +84,44 @@ export default function Footer() {
               references—occasionally.
             </p>
 
-            <form
-              className="mt-8 flex w-full items-center gap-3 md:ml-auto md:max-w-md md:justify-end"
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <div className="relative w-full">
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  className="h-12 w-full rounded-full border border-white/15 bg-white/5 px-5 pr-14 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-purple-400/60 focus:ring-2 focus:ring-purple-400/20"
-                />
-                <button
-                  type="submit"
-                  aria-label="Subscribe"
-                  className="absolute right-1 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/80 transition hover:bg-white/10 hover:text-white"
-                >
-                  →
-                </button>
-              </div>
-            </form>
+            <div className="relative w-full">
+              <input
+                id="newsletter-email"
+                type="email"
+                name="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                className="h-12 w-full rounded-full border border-white/15 bg-white/5 px-5 pr-14 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-purple-400/60 focus:ring-2 focus:ring-purple-400/20"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (email && e.currentTarget.checkValidity()) {
+                      window.location.assign(mailtoLink);
+                    } else {
+                      e.currentTarget.reportValidity();
+                    }
+                  }
+                }}
+              />
+              <a
+                href={email ? mailtoLink : "#"}
+                aria-label="Subscribe"
+                className="absolute right-1 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/80 transition hover:bg-white/10 hover:text-white"
+                onClick={(e) => {
+                  if (!email) {
+                    e.preventDefault();
+                    const input = document.getElementById(
+                      "newsletter-email",
+                    ) as HTMLInputElement;
+                    if (input) input.reportValidity();
+                  }
+                }}
+              >
+                →
+              </a>
+            </div>
 
             <p className="mt-3 text-xs text-white/45 md:ml-auto md:max-w-md">
               No noise. No spam. Opt out anytime.

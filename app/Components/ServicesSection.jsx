@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 const services = [
   {
@@ -478,9 +479,12 @@ export default function ServicesSection() {
           border-right: 1px solid hsl(var(--border) / 0.12);
           display: flex;
           align-items: center;
-          cursor: default;
           position: relative;
           overflow: hidden;
+        }
+
+        .sv-card a {
+          cursor: pointer;
         }
 
         /* Subtle hover bg */
@@ -727,25 +731,30 @@ export default function ServicesSection() {
           {/* Service cards */}
           {services.map((s) => (
             <div key={s.num} className="sv-card">
-              <div className="sv-card-inner">
-                <div className="sv-icon">{s.icon}</div>
-                <span className="sv-card-num">{s.num}</span>
-                <h3 className="sv-card-title">{s.title}</h3>
-                <p className="sv-card-sub">{s.sub}</p>
-                <div className="sv-divider" />
-                <p className="sv-card-desc">{s.desc}</p>
-                <div className="sv-tags">
-                  {s.tags.map((t) => (
-                    <span key={t} className="sv-tag">
-                      {t}
-                    </span>
-                  ))}
+              <Link
+                href={`/services`}
+                className="w-full h-full flex items-center"
+              >
+                <div className="sv-card-inner">
+                  <div className="sv-icon">{s.icon}</div>
+                  <span className="sv-card-num">{s.num}</span>
+                  <h3 className="sv-card-title">{s.title}</h3>
+                  <p className="sv-card-sub">{s.sub}</p>
+                  <div className="sv-divider" />
+                  <p className="sv-card-desc">{s.desc}</p>
+                  <div className="sv-tags">
+                    {s.tags.map((t) => (
+                      <span key={t} className="sv-tag">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="sv-stat">
+                    <span className="sv-stat-num">{s.stat}</span>
+                    <span className="sv-stat-label">{s.statLabel}</span>
+                  </div>
                 </div>
-                <div className="sv-stat">
-                  <span className="sv-stat-num">{s.stat}</span>
-                  <span className="sv-stat-label">{s.statLabel}</span>
-                </div>
-              </div>
+              </Link>
             </div>
           ))}
 
@@ -753,7 +762,7 @@ export default function ServicesSection() {
           <div className="sv-panel-end">
             <span className="sv-cta-label">Ready to start?</span>
             <p className="sv-cta-heading">Let's build something great</p>
-            <button className="sv-cta-btn">
+            <Link href="/contact" className="sv-cta-btn">
               <span>Start a Project</span>
               <svg
                 className="sv-cta-ico"
@@ -768,7 +777,7 @@ export default function ServicesSection() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import About from "./Components/About";
 import CurtainLayout from "./Components/CurtainLayout";
 import Hero from "./Components/Hero";
-import PortfolioSection from "./Components/PortfolioSection.jsx";
+import PortfolioSection from "./Components/PortfolioSection";
 import ServicesSection from "./Components/ServicesSection";
 
 export default function Page() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -11,7 +11,8 @@ const projects = [
     category: "Brand Identity & Web",
     year: "2024",
     tags: ["Design System", "Next.js", "Motion"],
-    image: "projects/iusblock.png",
+    image: "/projects/iusblock.png",
+    href: "https://iusblock.com",
     accent: "hsl(var(--primary))",
     desc: "A complete visual identity for a luxury SaaS brand, from logo system to interactive design language.",
   },
@@ -22,6 +23,7 @@ const projects = [
     year: "2024",
     tags: ["Cryptocurrency", "Tokens", "Stable"],
     image: "/projects/meetcoin.png",
+    href: "https://meetcoin.io",
     accent: "hsl(var(--primary))",
     desc: "An immersive e-commerce platform with real-time 3D product previews and augmented reality try-on.",
   },
@@ -32,6 +34,7 @@ const projects = [
     year: "2023",
     tags: ["React Native", "WebGL", "Real-time"],
     image: "/projects/pagomeet.png",
+    href: "https://pagomeet.com",
     accent: "hsl(var(--primary))",
     desc: "A data-dense operations platform that turns complex infrastructure metrics into beautiful clarity.",
   },
@@ -42,35 +45,26 @@ const projects = [
     year: "2023",
     tags: ["Three.js", "GLSL", "Canvas"],
     image: "/projects/mercadomeet.png",
+    href: "https://mercadomeet.com",
     accent: "hsl(var(--primary))",
     desc: "A generative art installation that reacts to visitor movement, blending code with physical space.",
   },
-  // {
-  //   id: "05",
-  //   title: "Axiom",
-  //   category: "Fintech Platform",
-  //   year: "2023",
-  //   tags: ["Dashboard", "D3.js", "API"],
-  //   image:
-  //     "https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2400&auto=format&fit=crop",
-  //   accent: "hsl(var(--primary))",
-  //   desc: "Next-generation trading interface with sub-millisecond data visualization and predictive analytics.",
-  // },
 ];
 
 export default function PortfolioSection() {
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const titleRef = useRef<HTMLDivElement | null>(null);
+  const [cursorLabel, setCursorLabel] = useState("Visit ↗");
+  const cleanupsRef = useRef<Array<() => void>>([]);
 
   useEffect(() => {
-    const cleanups = [];
+    if (typeof window === "undefined") return;
 
-    const init = async () => {
-      if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
 
-      gsap.registerPlugin(ScrollTrigger);
+    const ctx = gsap.context(() => {
+      const cleanups = cleanupsRef.current;
 
-      // ── Heading reveal ───────────────────────────────────────────
       const line1Chars =
         titleRef.current?.querySelectorAll(".pw-line1 .pw-char");
       const line2El = titleRef.current?.querySelector(".pw-line2");
@@ -91,6 +85,7 @@ export default function PortfolioSection() {
             },
           );
         }
+
         if (line2El) {
           gsap.fromTo(
             line2El,
@@ -108,7 +103,7 @@ export default function PortfolioSection() {
 
       if (inView) {
         requestAnimationFrame(animateHeading);
-      } else {
+      } else if (titleRef.current) {
         ScrollTrigger.create({
           trigger: titleRef.current,
           start: "top 90%",
@@ -117,28 +112,29 @@ export default function PortfolioSection() {
         });
       }
 
-      // ── Per-card: pin + zoom + bidirectional tile shatter ───────
-      const cards = sectionRef.current?.querySelectorAll(".pw-card");
+      const cards =
+        sectionRef.current?.querySelectorAll<HTMLElement>(".pw-card");
 
       cards?.forEach((card) => {
-        const img = card.querySelector(".pw-card-img");
-        const content = card.querySelector(".pw-card-content");
-        const num = card.querySelector(".pw-card-num");
-        const tileGrid = card.querySelector(".pw-tile-grid");
-        const tiles = card.querySelectorAll(".pw-tile");
-        const chromaR = card.querySelector(".pw-chroma-r");
-        const chromaB = card.querySelector(".pw-chroma-b");
+        const img = card.querySelector<HTMLElement>(".pw-card-img");
+        const content = card.querySelector<HTMLElement>(".pw-card-content");
+        const num = card.querySelector<HTMLElement>(".pw-card-num");
+        const tileGrid = card.querySelector<HTMLElement>(".pw-tile-grid");
+        const tiles = card.querySelectorAll<HTMLElement>(".pw-tile");
+        const chromaR = card.querySelector<HTMLElement>(".pw-chroma-r");
+        const chromaB = card.querySelector<HTMLElement>(".pw-chroma-b");
 
-        // Track animation state: null | "closed" | "open"
-        let shatterState = null; // null = never run
+        let shatterState: null | "closed" | "open" = null;
 
-        const COLS = 8,
-          ROWS = 5;
+        const COLS = 8;
+        const ROWS = 5;
+
         const tileData = Array.from(tiles).map((tile, ti) => {
           const col = ti % COLS;
           const row = Math.floor(ti / COLS);
           const fromLeft = col < COLS / 2;
           const fromTop = row < ROWS / 2;
+
           return {
             tile,
             x: (fromLeft ? -1 : 1) * (100 + Math.random() * 160) * 3,
@@ -151,13 +147,13 @@ export default function PortfolioSection() {
           };
         });
 
-        // ── FORWARD: tiles fly IN from edges (card closes) ──────
         const fireShatterClose = () => {
           if (shatterState === "closed") return;
           shatterState = "closed";
 
-          gsap.killTweensOf([...tiles, chromaR, chromaB]);
-          gsap.set(tileGrid, { visibility: "visible" });
+          gsap.killTweensOf([...tiles, chromaR, chromaB].filter(Boolean));
+
+          if (tileGrid) gsap.set(tileGrid, { visibility: "visible" });
 
           tileData.forEach(({ tile, x, y, skewX, skewY, delay }) => {
             gsap.fromTo(
@@ -191,6 +187,7 @@ export default function PortfolioSection() {
             );
             gsap.to(chromaR, { opacity: 0, duration: 0.2, delay: 0.22 });
           }
+
           if (chromaB) {
             gsap.set(chromaB, { visibility: "visible" });
             gsap.fromTo(
@@ -208,15 +205,14 @@ export default function PortfolioSection() {
           }
         };
 
-        // ── REVERSE: tiles fly BACK OUT to edges (card reopens) ─
         const fireShatterOpen = () => {
           if (shatterState === "open" || shatterState === null) return;
           shatterState = "open";
 
-          gsap.killTweensOf([...tiles, chromaR, chromaB]);
-          gsap.set(tileGrid, { visibility: "visible" });
+          gsap.killTweensOf([...tiles, chromaR, chromaB].filter(Boolean));
 
-          // Chroma flash first
+          if (tileGrid) gsap.set(tileGrid, { visibility: "visible" });
+
           if (chromaR) {
             gsap.set(chromaR, {
               visibility: "visible",
@@ -233,6 +229,7 @@ export default function PortfolioSection() {
             });
             gsap.to(chromaR, { opacity: 0, duration: 0.18, delay: 0.16 });
           }
+
           if (chromaB) {
             gsap.set(chromaB, {
               visibility: "visible",
@@ -250,7 +247,8 @@ export default function PortfolioSection() {
             gsap.to(chromaB, { opacity: 0, duration: 0.18, delay: 0.16 });
           }
 
-          // Tiles fly OUT — mirror of fly-in: start at 0,0 → end at offscreen
+          const maxDelay = Math.max(...tileData.map((d) => d.delay));
+
           tileData.forEach(({ tile, x, y, skewX, skewY, delay }) => {
             gsap.fromTo(
               tile,
@@ -261,14 +259,12 @@ export default function PortfolioSection() {
                 opacity: 0,
                 skewX,
                 skewY,
-                ease: "expo.in", // ← expo.in for an accelerating burst feel
+                ease: "expo.in",
                 duration: 0.55,
                 delay,
                 onComplete: () => {
-                  // After last tile, hide the whole grid
-                  const maxDelay = Math.max(...tileData.map((d) => d.delay));
                   if (delay >= maxDelay - 0.01) {
-                    gsap.set(tileGrid, { visibility: "hidden" });
+                    if (tileGrid) gsap.set(tileGrid, { visibility: "hidden" });
                     gsap.set(tiles, {
                       opacity: 0,
                       x: 0,
@@ -276,7 +272,7 @@ export default function PortfolioSection() {
                       skewX: 0,
                       skewY: 0,
                     });
-                    gsap.set([chromaR, chromaB], {
+                    gsap.set([chromaR, chromaB].filter(Boolean), {
                       visibility: "hidden",
                       opacity: 0,
                     });
@@ -296,22 +292,24 @@ export default function PortfolioSection() {
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            // Image zoom
-            gsap.set(img, {
-              scale: 1 + self.progress * 0.25,
-              transformOrigin: "center center",
-            });
+            if (img) {
+              gsap.set(img, {
+                scale: 1 + self.progress * 0.25,
+                transformOrigin: "center center",
+              });
+            }
 
-            // Content fade
-            if (self.progress < 0.55) {
+            if (content && self.progress < 0.55) {
               gsap.set(content, {
                 opacity: 1 - self.progress * 1.6,
                 y: -self.progress * 60,
               });
+            }
+
+            if (num && self.progress < 0.55) {
               gsap.set(num, { opacity: 1 - self.progress * 2 });
             }
 
-            // ── Threshold logic: close at 0.6, reopen below 0.5 ──
             if (self.progress >= 0.6) {
               fireShatterClose();
             } else if (self.progress < 0.5 && shatterState === "closed") {
@@ -320,75 +318,131 @@ export default function PortfolioSection() {
           },
         });
 
-        gsap.fromTo(
-          content,
-          { y: 50, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: { trigger: card, start: "top 95%", once: true },
-          },
-        );
-        gsap.fromTo(
-          num,
-          { opacity: 0, x: -20 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.7,
-            ease: "power2.out",
-            scrollTrigger: { trigger: card, start: "top 95%", once: true },
-          },
-        );
+        if (content) {
+          gsap.fromTo(
+            content,
+            { y: 50, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1,
+              ease: "power3.out",
+              scrollTrigger: { trigger: card, start: "top 95%", once: true },
+            },
+          );
+        }
+
+        if (num) {
+          gsap.fromTo(
+            num,
+            { opacity: 0, x: -20 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.7,
+              ease: "power2.out",
+              scrollTrigger: { trigger: card, start: "top 95%", once: true },
+            },
+          );
+        }
       });
 
-      // ── Magnetic cursor ──────────────────────────────────────────
       const canHover =
-        typeof window !== "undefined" &&
         window.matchMedia &&
         window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
       if (canHover) {
-        const cursor = document.querySelector(".pw-cursor");
+        const cursor = document.querySelector<HTMLElement>(".pw-cursor");
+
         if (cursor) {
-          let mx = 0,
-            my = 0,
-            cx = 0,
-            cy = 0,
-            raf;
-          const onMove = (e) => {
+          let mx = 0;
+          let my = 0;
+          let cx = 0;
+          let cy = 0;
+          let raf = 0;
+
+          const onMove = (e: MouseEvent) => {
             mx = e.clientX;
             my = e.clientY;
           };
-          window.addEventListener("mousemove", onMove);
+
           const tick = () => {
             cx += (mx - cx) * 0.12;
             cy += (my - cy) * 0.12;
             gsap.set(cursor, { x: cx, y: cy });
             raf = requestAnimationFrame(tick);
           };
-          tick();
 
-          const onEnter = () =>
+          const onEnterCursor = () =>
             gsap.to(cursor, {
               scale: 1,
               opacity: 1,
               duration: 0.4,
               ease: "back.out(2)",
             });
-          const onLeave = () =>
-            gsap.to(cursor, { scale: 0, opacity: 0, duration: 0.3 });
 
-          sectionRef.current?.querySelectorAll(".pw-card").forEach((card) => {
-            card.addEventListener("mouseenter", onEnter);
-            card.addEventListener("mouseleave", onLeave);
-            cleanups.push(() => {
-              card.removeEventListener("mouseenter", onEnter);
-              card.removeEventListener("mouseleave", onLeave);
+          const onLeaveCursor = () =>
+            gsap.to(cursor, {
+              scale: 0.72,
+              opacity: 0,
+              duration: 0.45,
+              ease: "power3.out",
             });
-          });
+          window.addEventListener("mousemove", onMove);
+          tick();
+
+          sectionRef.current
+            ?.querySelectorAll<HTMLElement>(".pw-card")
+            .forEach((card) => {
+              const href = card.dataset.href || "";
+
+              const onEnter = () => {
+                setCursorLabel("Visit ↗");
+                gsap.killTweensOf(cursor);
+                onEnterCursor();
+              };
+
+              const onLeave = () => {
+                setCursorLabel("Visit ↗");
+                gsap.killTweensOf(cursor);
+                onLeaveCursor();
+              };
+
+              // ADD
+              const onClick = () => {
+                if (!href) return;
+
+                const cursor =
+                  document.querySelector<HTMLElement>(".pw-cursor");
+
+                if (cursor) {
+                  gsap.to(cursor, {
+                    scale: 0.86,
+                    duration: 0.12,
+                    ease: "power2.out",
+                    onComplete: () => {
+                      gsap.to(cursor, {
+                        scale: 1,
+                        duration: 0.28,
+                        ease: "back.out(1.8)",
+                      });
+                    },
+                  });
+                }
+
+                window.open(href, "_blank", "noopener,noreferrer");
+              };
+
+              card.addEventListener("mouseenter", onEnter);
+              card.addEventListener("mouseleave", onLeave);
+              card.addEventListener("click", onClick);
+
+              cleanups.push(() => {
+                card.removeEventListener("mouseenter", onEnter);
+                card.removeEventListener("mouseleave", onLeave);
+                card.removeEventListener("click", onClick);
+              });
+            });
 
           cleanups.push(() => {
             window.removeEventListener("mousemove", onMove);
@@ -396,21 +450,17 @@ export default function PortfolioSection() {
           });
         }
       }
-
-      // cleanups.push(() => ScrollTrigger.getAll().forEach((t) => t.kill()));
-    };
-
-    const ctx = gsap.context(() => {
-      init();
     }, sectionRef);
 
     return () => {
-      cleanups.forEach((fn) => fn());
+      cleanupsRef.current.forEach((fn) => fn());
+      cleanupsRef.current = [];
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       ctx.revert();
     };
   }, []);
 
-  const splitChars = (text) =>
+  const splitChars = (text: string) =>
     text.split("").map((ch, i) => (
       <span key={i} className="pw-char" style={{ display: "inline-block" }}>
         {ch === " " ? "\u00A0" : ch}
@@ -430,7 +480,14 @@ export default function PortfolioSection() {
           transform: translate(-50%, -50%) scale(0); opacity: 0;
           backdrop-filter: blur(4px);
         }
-        .pw-cursor-text { font-family: var(--font-body, sans-serif); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(var(--foreground) / 0.8); }
+        .pw-cursor-text {
+          font-family: var(--font-body, sans-serif);
+          font-size: 10px;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: hsl(var(--foreground) / 0.8);
+          text-align: center;
+        }
         .pw-section { background: hsl(var(--background)); color: hsl(var(--foreground)); }
         .pw-intro { padding: 130px 60px 70px; max-width: 1400px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
         .pw-intro-left { max-width: 680px; }
@@ -448,7 +505,15 @@ export default function PortfolioSection() {
         .pw-scroll-hint-arrow { animation: pw-bob 2s ease-in-out infinite; }
         @keyframes pw-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
         .pw-cards { position: relative; }
-        .pw-card { position: relative; width: 100%; height: 100vh; overflow: hidden; background: hsl(var(--background)); isolation: isolate; }
+        .pw-card {
+          position: relative;
+          width: 100%;
+          height: 100vh;
+          overflow: hidden;
+          background: hsl(var(--background));
+          isolation: isolate;
+          cursor: pointer;
+        }
         .pw-card-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; transform-origin: center center; }
         .pw-card-img { width: 100%; height: 100%; object-fit: cover; object-position: center; transform-origin: center center; will-change: transform; display: block; }
         .pw-card-grad { position: absolute; inset: 0; background: linear-gradient(to right, hsl(var(--background) / 0.82) 0%, hsl(var(--background) / 0.1) 55%, transparent 100%), linear-gradient(to top, hsl(var(--background) / 0.65) 0%, transparent 45%); z-index: 1; }
@@ -468,7 +533,7 @@ export default function PortfolioSection() {
         .pw-card-progress { position: absolute; top: 50%; right: 40px; transform: translateY(-50%); z-index: 6; display: flex; flex-direction: column; gap: 8px; align-items: center; }
         .pw-card-prog-dot { width: 4px; height: 4px; border-radius: 50%; background: hsl(var(--muted-foreground) / 0.25); transition: background 0.3s, transform 0.3s; }
         .pw-card-prog-dot.active { background: hsl(var(--primary)); transform: scale(1.6); }
-        .pw-footer { background: hsl(var(--background)); padding: 100px 60px 120px; display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; gap: 40px; border-top: 1px solid hsl(var(--border) / 0.4); }
+        .pw-footer { background: hsl(var(--background)); padding: 100px 60px; display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; gap: 40px; border-top: 1px solid hsl(var(--border) / 0.4); }
         .pw-footer-label { font-family: var(--font-body, sans-serif); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: hsl(var(--muted-foreground) / 0.5); margin-bottom: 8px; }
         .pw-footer-heading { font-family: var(--font-display, sans-serif); font-size: clamp(36px, 4.5vw, 68px); font-weight: 600; letter-spacing: -0.03em; color: hsl(var(--foreground)); line-height: 1; }
         .pw-footer-btn { display: flex; align-items: center; gap: 12px; padding: 14px 32px; border-radius: 100px; border: 1px solid hsl(var(--border) / 0.6); background: transparent; color: hsl(var(--foreground)); font-family: var(--font-body, sans-serif); font-size: 12px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; position: relative; overflow: hidden; transition: border-color 0.35s, box-shadow 0.5s; white-space: nowrap; flex-shrink: 0; }
@@ -478,6 +543,7 @@ export default function PortfolioSection() {
         .pw-footer-btn span, .pw-footer-ico { position: relative; z-index: 1; }
         .pw-footer-ico { width: 16px; height: 16px; transition: transform 0.3s ease; }
         .pw-footer-btn:hover .pw-footer-ico { transform: translateX(4px); }
+
         @media (max-width: 768px) {
           .pw-intro { padding: 80px 24px 50px; flex-direction: column; align-items: flex-start; }
           .pw-intro-right { text-align: left; }
@@ -487,13 +553,14 @@ export default function PortfolioSection() {
           .pw-card-progress { right: 16px; }
           .pw-footer { padding: 60px 24px 80px; flex-direction: column; align-items: flex-start; }
         }
+
         @media (hover: none), (pointer: coarse) {
           .pw-cursor { display: none !important; }
         }
       `}</style>
 
       <div className="pw-cursor">
-        <span className="pw-cursor-text">View</span>
+        <span className="pw-cursor-text">{cursorLabel}</span>
       </div>
 
       <section id="work" className="pw-section" ref={sectionRef}>
@@ -508,8 +575,11 @@ export default function PortfolioSection() {
               <div className="pw-line2 text-gradient-primary">Portfolio</div>
             </div>
           </div>
+
           <div className="pw-intro-right">
-            <span className="pw-total">05</span>
+            <span className="pw-total">
+              {String(projects.length).padStart(2, "0")}
+            </span>
             <p className="pw-intro-sub">Projects</p>
           </div>
         </div>
@@ -536,9 +606,8 @@ export default function PortfolioSection() {
 
         <div className="pw-cards">
           {projects.map((p, i) => (
-            <div key={p.id} className="pw-card">
+            <div key={p.id} className="pw-card" data-href={p.href}>
               <div className="pw-card-bg">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={p.image}
                   alt={p.title}
@@ -546,15 +615,20 @@ export default function PortfolioSection() {
                   loading="eager"
                 />
               </div>
+
               <div className="pw-card-grad" />
+
               <div className="pw-tile-grid">
                 {Array.from({ length: 40 }).map((_, ti) => (
                   <div key={ti} className="pw-tile" />
                 ))}
               </div>
+
               <div className="pw-chroma-r" />
               <div className="pw-chroma-b" />
+
               <span className="pw-card-year">{p.year}</span>
+
               <div className="pw-card-progress">
                 {projects.map((_, di) => (
                   <span
@@ -563,9 +637,10 @@ export default function PortfolioSection() {
                   />
                 ))}
               </div>
+
               <div className="pw-card-content">
                 <span className="pw-card-num">
-                  {p.id} / 0{projects.length}
+                  {p.id} / {String(projects.length).padStart(2, "0")}
                 </span>
                 <div className="pw-card-cat">
                   <span className="pw-card-cat-line" />

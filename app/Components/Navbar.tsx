@@ -7,9 +7,9 @@ import { useRouter, usePathname } from "next/navigation";
 import CalendlyWidgetAssets from "@/app/Components/CalendlyWidgetAssets";
 import { openCalendlyPopup } from "@/app/lib/calendly";
 
-const navItems = [
+const navItems: { label: string; href?: string; id?: string }[] = [
   { label: "Portfolio", href: "/portfolio" },
-  { label: "Services", id: "services" },
+  { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];

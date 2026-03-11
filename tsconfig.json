@@ -30,7 +30,7 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "app/Components/ServicesSection.jsx",
-    "app/Components/PortfolioSection.jsx"
+    "app/Components/PortfolioSection.tsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -206,12 +207,12 @@ export default function About({
             >
               Contact
             </a>
-            <a
-              href="#work"
+            <Link
+              href="/portfolio"
               className="font-body inline-flex items-center justify-center rounded-full border border-border/60 bg-transparent px-6 py-2.5 text-sm font-medium tracking-wider text-foreground transition-all duration-500 hover:border-primary/40 hover:bg-primary/5 sm:text-base"
             >
               View Work
-            </a>
+            </Link>
           </div>
         </div>
       </div>
