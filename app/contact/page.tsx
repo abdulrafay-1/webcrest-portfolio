@@ -59,7 +59,7 @@ export default function ContactPage() {
       <div className="pointer-events-none absolute inset-0 gradient-mesh" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
 
-      <section className="section-padding relative z-10 mx-auto max-w-6xl pb-20 pt-32 md:pb-28 md:pt-36">
+      <section className="section-padding relative z-10 mx-auto max-w-7xl pb-20 pt-32 md:pb-28 md:pt-36">
         <div className="mb-10 md:mb-14">
           <p className="mb-4 inline-flex rounded-full border border-border/60 px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
             Contact Webcrest

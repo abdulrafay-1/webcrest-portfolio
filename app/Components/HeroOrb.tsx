@@ -167,32 +167,80 @@ function MagneticOrb({ baseScale }: { baseScale: number }) {
 
 function Particles() {
   const count = 400;
+
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
+
     for (let i = 0; i < count; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 15;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 15;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 15;
     }
+
     return pos;
   }, [count]);
 
+  const particleTexture = useMemo(() => {
+    const size = 128;
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+
+    const gradient = ctx.createRadialGradient(
+      size / 2,
+      size / 2,
+      0,
+      size / 2,
+      size / 2,
+      size / 2,
+    );
+
+    gradient.addColorStop(0, "rgba(255,255,255,1)");
+    gradient.addColorStop(0.35, "rgba(255,255,255,0.95)");
+    gradient.addColorStop(0.7, "rgba(255,255,255,0.35)");
+    gradient.addColorStop(1, "rgba(255,255,255,0)");
+
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+
+    return texture;
+  }, []);
+
   const ref = useRef<THREE.Points>(null);
-  useFrame((_, delta) => {
-    if (ref.current) ref.current.rotation.y += delta * 0.02;
+
+  useFrame((state, delta) => {
+    if (!ref.current) return;
+
+    ref.current.rotation.y += delta * 0.02;
+    ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.12) * 0.04;
   });
+
+  if (!particleTexture) return null;
 
   return (
     <points ref={ref}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
+
       <pointsMaterial
-        size={0.02}
+        map={particleTexture}
+        size={0.09}
         color="#a78bfa"
         transparent
-        opacity={0.6}
+        opacity={0.75}
+        alphaTest={0.08}
+        depthWrite={false}
         sizeAttenuation
+        blending={THREE.AdditiveBlending}
       />
     </points>
   );
