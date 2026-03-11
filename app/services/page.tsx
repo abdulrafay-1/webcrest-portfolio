@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
-import SmoothScrollProvider from "../Components/SmoothScrollProvider";
+import CurtainLayout from "../Components/CurtainLayout";
 
 const services = [
   {
@@ -122,138 +122,221 @@ const services = [
 const techStack = [
   {
     name: "React",
-    x: "5%",
-    y: "10%",
-    size: 140,
-    color: "#61DAFB",
-    icon: "https://cdn.simpleicons.org/react/61DAFB",
-  },
-  {
-    name: "MERN",
-    x: "calc(100% - 180px)",
-    y: "5%",
-    size: 160,
-    color: "#47A248",
-    icon: "https://cdn.simpleicons.org/mongodb/47A248",
-  },
-  {
-    name: "AI / Python",
-    x: "calc(50% - 65px)",
-    y: "2%",
-    size: 130,
-    color: "#3776AB",
-    icon: "https://cdn.simpleicons.org/python/3776AB",
+    left: "4%",
+    top: "10%",
+    colorFrom: "#8B5CF6",
+    colorTo: "#3B82F6",
+    icon: "https://cdn.simpleicons.org/react/ffffff",
   },
   {
     name: "Next.js",
-    x: "calc(100% - 170px)",
-    y: "calc(100% - 170px)",
-    size: 150,
-    color: "#ffffff",
+    left: "24%",
+    top: "18%",
+    colorFrom: "#7C3AED",
+    colorTo: "#A855F7",
     icon: "https://cdn.simpleicons.org/nextdotjs/ffffff",
   },
   {
+    name: "TypeScript",
+    left: "42%",
+    top: "8%",
+    colorFrom: "#2563EB",
+    colorTo: "#60A5FA",
+    icon: "https://cdn.simpleicons.org/typescript/ffffff",
+  },
+  {
+    name: "Node.js",
+    left: "66%",
+    top: "12%",
+    colorFrom: "#15803D",
+    colorTo: "#4ADE80",
+    icon: "https://cdn.simpleicons.org/nodedotjs/ffffff",
+  },
+  {
+    name: "MERN",
+    left: "80%",
+    top: "22%",
+    colorFrom: "#166534",
+    colorTo: "#22C55E",
+    icon: "https://cdn.simpleicons.org/mongodb/ffffff",
+  },
+  {
+    name: "AI / Python",
+    left: "10%",
+    top: "40%",
+    colorFrom: "#2563EB",
+    colorTo: "#A855F7",
+    icon: "https://cdn.simpleicons.org/python/ffffff",
+  },
+  {
     name: "Three.js",
-    x: "2%",
-    y: "calc(100% - 130px)",
-    size: 120,
-    color: "#ffffff",
+    left: "34%",
+    top: "48%",
+    colorFrom: "#7C3AED",
+    colorTo: "#EC4899",
     icon: "https://cdn.simpleicons.org/threedotjs/ffffff",
   },
   {
     name: "Tailwind",
-    x: "25%",
-    y: "25%",
-    size: 110,
-    color: "#06B6D4",
-    icon: "https://cdn.simpleicons.org/tailwindcss/06B6D4",
-  },
-  {
-    name: "Node.js",
-    x: "calc(45% - 65px)",
-    y: "calc(100% - 140px)",
-    size: 130,
-    color: "#339933",
-    icon: "https://cdn.simpleicons.org/nodedotjs/339933",
+    left: "54%",
+    top: "38%",
+    colorFrom: "#0891B2",
+    colorTo: "#22D3EE",
+    icon: "https://cdn.simpleicons.org/tailwindcss/ffffff",
   },
   {
     name: "AWS",
-    x: "calc(100% - 130px)",
-    y: "45%",
-    size: 110,
-    color: "#FF9900",
+    left: "72%",
+    top: "50%",
+    colorFrom: "#D97706",
+    colorTo: "#F59E0B",
     icon: "https://img.icons8.com/?size=48&id=33039&format=png",
   },
   {
     name: "Shopify",
-    x: "35%",
-    y: "50%",
-    size: 90,
-    color: "#95BF47",
-    icon: "https://cdn.simpleicons.org/shopify/95BF47",
+    left: "22%",
+    top: "72%",
+    colorFrom: "#4D7C0F",
+    colorTo: "#84CC16",
+    icon: "https://cdn.simpleicons.org/shopify/ffffff",
   },
   {
-    name: "TypeScript",
-    x: "calc(60% - 50px)",
-    y: "40%",
-    size: 100,
-    color: "#3178C6",
-    icon: "https://cdn.simpleicons.org/typescript/3178C6",
+    name: "WebGL",
+    left: "48%",
+    top: "72%",
+    colorFrom: "#6D28D9",
+    colorTo: "#C026D3",
+    icon: "https://cdn.simpleicons.org/webgl/ffffff",
+  },
+  {
+    name: "Framer Motion",
+    left: "70%",
+    top: "74%",
+    colorFrom: "#7C3AED",
+    colorTo: "#F472B6",
+    icon: "https://cdn.simpleicons.org/framer/ffffff",
   },
 ];
 
+type TechChipProps = {
+  tech: (typeof techStack)[number];
+  constraintRef: React.RefObject<HTMLDivElement | null>;
+  index: number;
+};
+
+function TechChip({ tech, constraintRef, index }: TechChipProps) {
+  return (
+    <motion.div
+      drag
+      dragConstraints={constraintRef}
+      dragElastic={0.16}
+      dragMomentum={true}
+      dragTransition={{
+        bounceStiffness: 260,
+        bounceDamping: 22,
+      }}
+      initial={{ opacity: 0, y: 40, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{
+        duration: 0.45,
+        delay: index * 0.04,
+        ease: "easeOut",
+      }}
+      whileHover={{
+        scale: 1.06,
+        y: -4,
+        transition: { type: "spring", stiffness: 320, damping: 18 },
+      }}
+      whileTap={{
+        scale: 0.98,
+        cursor: "grabbing",
+      }}
+      className="absolute cursor-grab active:cursor-grabbing select-none"
+      style={{
+        left: tech.left,
+        top: tech.top,
+      }}
+    >
+      <div
+        className="group inline-flex items-center gap-3 rounded-full border px-5 py-3 shadow-[0_10px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-transform duration-300"
+        style={{
+          background: `linear-gradient(135deg, ${tech.colorFrom}, ${tech.colorTo})`,
+          borderColor: "rgba(255,255,255,0.14)",
+        }}
+      >
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/15">
+          <img
+            src={tech.icon}
+            alt={tech.name}
+            draggable={false}
+            className="pointer-events-none h-5 w-5 object-contain"
+          />
+        </div>
+
+        <span className="whitespace-nowrap text-sm md:text-[15px] font-semibold text-white tracking-[0.01em]">
+          {tech.name}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function ServicesPage() {
-  const containerRef = useRef(null);
-  const heroRef = useRef(null);
-  const ballsContainerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const ballsContainerRef = useRef<HTMLDivElement | null>(null);
+  const parallaxBg = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // We'll use a vertical stacked approach with sticky un-stacking
-  // providing a massive canvas for each service
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // Hero Animation
-      gsap.fromTo(
-        ".svc-hero-title span",
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.05,
-          duration: 0.6,
+      const heroItems = heroRef.current?.children;
+
+      if (heroItems) {
+        gsap.from(heroItems, {
+          y: 120,
+          opacity: 0,
+          duration: 1.4,
           ease: "power4.out",
-          delay: 0,
-        },
-      );
-      gsap.fromTo(
-        ".svc-hero-sub",
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", delay: 0.1 },
-      );
+          stagger: {
+            amount: 0.5,
+          },
+        });
+      }
 
-      // Section animations
-      const serviceSections: any[] = gsap.utils.toArray(".svc-section");
+      if (parallaxBg.current) {
+        gsap.to(parallaxBg.current, {
+          yPercent: -30,
+          ease: "none",
+          scrollTrigger: {
+            trigger: parallaxBg.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
 
-      serviceSections.forEach((sec: any, i: number) => {
-        const icon = sec.querySelector(".svc-icon") as HTMLElement;
-        const title = sec.querySelector(".svc-title") as HTMLElement;
-        const num = sec.querySelector(".svc-num") as HTMLElement;
-        const descItems = sec.querySelectorAll(
-          ".svc-desc-reveal",
-        ) as unknown as HTMLElement[];
-        const listItems = sec.querySelectorAll(
-          ".svc-list-item",
-        ) as unknown as HTMLElement[];
+      const serviceSections = gsap.utils.toArray<HTMLElement>(".svc-section");
+
+      serviceSections.forEach((sec) => {
+        const icon = sec.querySelector(".svc-icon") as HTMLElement | null;
+        const title = sec.querySelector(".svc-title") as HTMLElement | null;
+        const num = sec.querySelector(".svc-num") as HTMLElement | null;
+        const descItems = sec.querySelectorAll(".svc-desc-reveal");
+        const listItems = sec.querySelectorAll(".svc-list-item");
         const statWrapper = sec.querySelector(
           ".svc-stat-wrapper",
-        ) as HTMLElement;
+        ) as HTMLElement | null;
+
+        if (!icon || !title || !num || !statWrapper) return;
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -324,323 +407,231 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <div
-      className="bg-background text-foreground min-h-screen"
-      ref={containerRef}
-    >
-      <style>{`
-        .svc-hero {
-          min-height: 50vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          padding: 0 24px;
-          position: relative;
-          border-bottom: 1px solid hsl(var(--border) / 0.2);
-        }
-        
-        .svc-hero-title {
-          font-family: var(--font-display, sans-serif);
-          font-size: clamp(40px, 6vw, 100px);
-          font-weight: 700;
-          letter-spacing: -0.03em;
-          line-height: 1;
-          margin-bottom: 24px;
-          overflow: hidden;
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 16px;
-          padding-top: 4vh;
-        }
-        .svc-hero-title span { display: inline-block; }
-
-        .svc-hero-sub {
-          font-family: var(--font-body, sans-serif);
-          font-size: clamp(16px, 2vw, 20px);
-          max-width: 600px;
-          color: hsl(var(--muted-foreground));
-          line-height: 1.6;
-        }
-
-        .svc-section {
-          padding: 80px 24px;
-          border-bottom: 1px solid hsl(var(--border) / 0.15);
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 40px;
-          max-width: 1400px;
-          margin: 0 auto;
-        }
-        
-        @media (max-width: 992px) {
+    <CurtainLayout>
+      <div className="bg-black text-white min-h-screen" ref={containerRef}>
+        <style>{`
           .svc-section {
-            grid-template-columns: 1fr;
-            gap: 32px;
-            padding: 60px 24px;
+            padding: 80px 24px;
+            border-bottom: 1px solid rgba(63, 63, 70, 0.55);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
           }
-        }
 
-        .svc-left {
-          position: relative;
-        }
+          @media (max-width: 992px) {
+            .svc-section {
+              grid-template-columns: 1fr;
+              gap: 32px;
+              padding: 60px 24px;
+            }
+          }
 
-        .svc-num {
-          font-family: var(--font-body, sans-serif);
-          font-size: 14px;
-          letter-spacing: 0.3em;
-          color: hsl(var(--primary));
-          margin-bottom: 24px;
-          display: block;
-        }
+          .svc-left {
+            position: relative;
+          }
 
-        .svc-title {
-          font-family: var(--font-display, sans-serif);
-          font-size: clamp(40px, 5vw, 72px);
-          font-weight: 600;
-          line-height: 1;
-          margin-bottom: 24px;
-          letter-spacing: -0.02em;
-        }
+          .svc-num {
+            font-family: var(--font-body, sans-serif);
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: rgb(168 85 247);
+            margin-bottom: 24px;
+            display: block;
+          }
 
-        .svc-icon {
-          width: 80px; height: 80px;
-          color: hsl(var(--primary));
-          margin-bottom: 40px;
-        }
+          .svc-title {
+            font-family: var(--font-display, sans-serif);
+            font-size: clamp(40px, 5vw, 72px);
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            color: white;
+          }
 
-        .svc-right {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
+          .svc-icon {
+            width: 80px;
+            height: 80px;
+            color: rgb(168 85 247);
+            margin-bottom: 40px;
+          }
 
-        .svc-desc-reveal {
-          font-family: var(--font-body, sans-serif);
-          font-size: 18px;
-          line-height: 1.7;
-          color: hsl(var(--muted-foreground));
-          margin-bottom: 24px;
-        }
+          .svc-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
 
-        .svc-deliverables {
-          margin-top: 40px;
-        }
+          .svc-desc-reveal {
+            font-family: var(--font-body, sans-serif);
+            font-size: 18px;
+            line-height: 1.7;
+            color: rgb(156 163 175);
+            margin-bottom: 24px;
+          }
 
-        .svc-deliverables h4 {
-          font-family: var(--font-body, sans-serif);
-          font-size: 12px;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: hsl(var(--foreground));
-          margin-bottom: 24px;
-          border-bottom: 1px solid hsl(var(--border) / 0.3);
-          padding-bottom: 12px;
-        }
+          .svc-deliverables {
+            margin-top: 40px;
+          }
 
-        .svc-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
-        }
-        
-        @media (max-width: 600px) {
-          .svc-list { grid-template-columns: 1fr; }
-        }
+          .svc-deliverables h4 {
+            font-family: var(--font-body, sans-serif);
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: white;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(63, 63, 70, 0.7);
+            padding-bottom: 12px;
+          }
 
-        .svc-list-item {
-          font-family: var(--font-body, sans-serif);
-          font-size: 14px;
-          color: hsl(var(--muted-foreground));
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
+          .svc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+          }
 
-        .svc-list-item::before {
-          content: '';
-          display: block;
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: hsl(var(--primary) / 0.6);
-        }
+          @media (max-width: 600px) {
+            .svc-list {
+              grid-template-columns: 1fr;
+            }
+          }
 
-        .svc-stat-wrapper {
-          margin-top: 48px;
-          padding: 32px;
-          background: hsl(var(--primary) / 0.03);
-          border: 1px solid hsl(var(--primary) / 0.1);
-          border-radius: 16px;
-          display: inline-flex;
-          flex-direction: column;
-          align-items: flex-start;
-        }
+          .svc-list-item {
+            font-family: var(--font-body, sans-serif);
+            font-size: 14px;
+            color: rgb(156 163 175);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          }
 
-        .svc-stat-num {
-          font-family: var(--font-display, sans-serif);
-          font-size: clamp(48px, 4vw, 64px);
-          font-weight: 700;
-          color: hsl(var(--foreground));
-          line-height: 1;
-          margin-bottom: 8px;
-        }
+          .svc-list-item::before {
+            content: "";
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(168, 85, 247, 0.65);
+          }
 
-        .svc-stat-label {
-          font-family: var(--font-body, sans-serif);
-          font-size: 12px;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: hsl(var(--primary));
-        }
-      `}</style>
+          .svc-stat-wrapper {
+            margin-top: 48px;
+            padding: 32px;
+            background: rgba(168, 85, 247, 0.04);
+            border: 1px solid rgba(168, 85, 247, 0.12);
+            border-radius: 16px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
 
-      <section className="svc-hero" ref={heroRef}>
-        <h1 className="svc-hero-title">
-          <span>Our</span>{" "}
-          <span className="text-gradient-primary">Expertise</span>
-        </h1>
-        <p className="svc-hero-sub">
-          A definitive look at what we do best. From brand inception to final
-          code deployment, we cover the entire digital lifecycle with exact
-          precision and artistry.
-        </p>
-      </section>
+          .svc-stat-num {
+            font-family: var(--font-display, sans-serif);
+            font-size: clamp(48px, 4vw, 64px);
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+            margin-bottom: 8px;
+          }
 
-      <div className="svc-content-wrap">
-        {services.map((svc, index) => (
-          <section
-            key={svc.num}
-            className="svc-section"
-            id={`service-${svc.num}`}
-          >
-            <div className="svc-left">
-              <span className="svc-num">
-                {svc.num} — {svc.sub}
-              </span>
-              <div className="svc-icon">{svc.icon}</div>
-              <h2 className="svc-title">{svc.title}</h2>
+          .svc-stat-label {
+            font-family: var(--font-body, sans-serif);
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgb(168 85 247);
+          }
+        `}</style>
+        <section className="relative py-40 text-center border-b border-zinc-800 overflow-hidden bg-black">
+          <div
+            ref={parallaxBg}
+            className="absolute inset-0 opacity-20 bg-gradient-to-br from-purple-600 via-purple-500 to-transparent blur-[140px]"
+          />
 
-              <div className="svc-stat-wrapper">
-                <div className="svc-stat-num">{svc.stat}</div>
-                <div className="svc-stat-label">{svc.statLabel}</div>
-              </div>
-            </div>
+          <div ref={heroRef} className="relative max-w-5xl mx-auto px-6">
+            <h1 className="text-6xl font-bold mb-6">
+              Our <span className="text-purple-500">Expertise</span>
+            </h1>
 
-            <div className="svc-right">
-              <p className="svc-desc-reveal">{svc.desc}</p>
-
-              <div className="svc-deliverables">
-                <h4>Core Deliverables</h4>
-                <ul className="svc-list">
-                  {svc.deliverables.map((item: string, i: number) => (
-                    <li key={i} className="svc-list-item">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </section>
-        ))}
-      </div>
-
-      {/* Tech Stack Balls Area */}
-      <section className="py-24 px-6 flex flex-col items-center">
-        <h2 className="font-display font-semibold pb-2 text-4xl md:text-5xl mb-12 text-center text-gradient-primary">
-          Technologies We Breathe
-        </h2>
-        <div
-          ref={ballsContainerRef}
-          className="relative w-full max-w-[1400px] h-[650px] border border-border/30 rounded-[40px] overflow-hidden"
-          style={{
-            background:
-              "radial-gradient(circle at center, hsl(var(--primary)/0.03) 0%, transparent 70%)",
-          }}
-        >
-          {techStack.map((tech, i) => (
-            <motion.div
-              key={tech.name}
-              drag
-              dragConstraints={ballsContainerRef}
-              dragElastic={0.4}
-              dragTransition={{ bounceStiffness: 400, bounceDamping: 10 }}
-              whileHover={{ scale: 1.1, zIndex: 50 }}
-              whileDrag={{ scale: 1.15, cursor: "grabbing", zIndex: 100 }}
-              initial={{ scale: 0, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 15,
-                delay: 0,
-              }}
-              className="absolute rounded-full border border-white/5 flex flex-col items-center justify-center p-4 cursor-grab select-none will-change-transform backdrop-blur-md transition-colors duration-500"
-              style={
-                {
-                  left: tech.x,
-                  top: tech.y,
-                  width: tech.size,
-                  height: tech.size,
-                  backgroundColor: "rgba(255, 255, 255, 0.02)",
-                  backgroundImage: `linear-gradient(135deg, ${tech.color}20 0%, transparent 80%)`,
-                  borderColor: `${tech.color}30`,
-                  boxShadow: `0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 0 0 1px ${tech.color}20, 0 0 40px -10px ${tech.color}50`,
-                } as React.CSSProperties
-              }
+            <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+              We craft scalable software, immersive digital platforms, and
+              powerful digital systems that help businesses grow through modern
+              engineering and intelligent design.
+            </p>
+          </div>
+        </section>
+        <div className="svc-content-wrap">
+          {services.map((svc) => (
+            <section
+              key={svc.num}
+              className="svc-section"
+              id={`service-${svc.num}`}
             >
-              <img
-                src={tech.icon}
-                alt={tech.name}
-                className="pointer-events-none mb-2"
-                style={{
-                  width: tech.size * 0.35,
-                  height: tech.size * 0.35,
-                }}
-              />
-              <span
-                className="font-body font-medium tracking-wide"
-                style={{
-                  fontSize: Math.max(10, tech.size * 0.1),
-                  color: "#ffffff",
-                }}
-              >
-                {tech.name}
-              </span>
-            </motion.div>
+              <div className="svc-left">
+                <span className="svc-num">
+                  {svc.num} — {svc.sub}
+                </span>
+                <div className="svc-icon">{svc.icon}</div>
+                <h2 className="svc-title">{svc.title}</h2>
+
+                <div className="svc-stat-wrapper">
+                  <div className="svc-stat-num">{svc.stat}</div>
+                  <div className="svc-stat-label">{svc.statLabel}</div>
+                </div>
+              </div>
+
+              <div className="svc-right">
+                <p className="svc-desc-reveal">{svc.desc}</p>
+
+                <div className="svc-deliverables">
+                  <h4>Core Deliverables</h4>
+                  <ul className="svc-list">
+                    {svc.deliverables.map((item, i) => (
+                      <li key={i} className="svc-list-item">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </section>
           ))}
         </div>
-      </section>
+        <section className="py-24 px-6 bg-black flex justify-center">
+          <div className="w-full max-w-6xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4">
+                Technologies <span className="text-purple-500">We Breathe</span>
+              </h2>
 
-      {/* Footer Call to Action area, kept simple but tying into the aesthetic */}
-      <section className="py-32 text-center px-6">
-        <h2 className="font-display text-4xl md:text-5xl mb-6">
-          Ready to start?
-        </h2>
-        <p className="text-muted-foreground max-w-lg mx-auto mb-10">
-          We are currently accepting new projects. Let's discuss how our
-          expertise can align with your next big move.
-        </p>
-        <a
-          href="/contact"
-          className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_8px_40px_-8px_hsl(var(--primary)/0.5)] transition-all uppercase tracking-widest text-xs"
-        >
-          Get in touch
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path
-              d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"
-              fill="currentColor"
-              fillRule="evenodd"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </a>
-      </section>
-    </div>
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                The modern stack we use to build fast, scalable and immersive
+                digital products.
+              </p>
+            </div>
+
+            {/* GRID */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {techStack.map((tech) => (
+                <div
+                  key={tech.name}
+                  className="flex items-center gap-4 border border-zinc-800 rounded-lg px-5 py-4 hover:bg-white/[0.03] transition"
+                >
+                  <img src={tech.icon} alt={tech.name} className="w-6 h-6" />
+
+                  <span className="text-white font-medium">{tech.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+    </CurtainLayout>
   );
 }
