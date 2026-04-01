@@ -432,7 +432,7 @@ export default function ServicesSection() {
           height: 100vh;
           display: flex;
           flex-direction: column;
-          justify-content: flex-end;
+          justify-content: center;
           padding: 0 64px 140px 60px;
           border-right: 1px solid hsl(var(--border) / 0.15);
           position: relative;

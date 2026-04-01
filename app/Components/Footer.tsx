@@ -20,7 +20,7 @@ export default function Footer() {
   const mailtoLink = `mailto:webcrestllc@gmail.com?subject=Insider Notes Subscription&body=Hi, I would like to subscribe to the Insider Notes with the email: ${encodeURIComponent(email)}`;
 
   return (
-    <footer className="fixed inset-x-0 top-[10] z-0 h-[100vh] w-full overflow-hidden bg-black">
+    <footer className="fixed inset-x-0 top-[10] z-0 dvh-[100vh] w-full overflow-hidden bg-black">
       {/* Background */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-purple-600/35 blur-[120px]" />
