@@ -37,6 +37,62 @@ const services = [
   },
   {
     num: "02",
+    title: "AI Development",
+    sub: "Intelligence built into products",
+    desc: "We build AI-powered products and automation systems that streamline operations, improve customer engagement, and add intelligence to your business workflows. From LLM integrations to custom AI assistants, we turn complex ideas into usable systems.",
+    deliverables: [
+      "AI Chatbots & Virtual Assistants",
+      "LLM / OpenAI Integrations",
+      "Workflow Automation",
+      "Custom AI Features",
+      "Machine Learning Solutions",
+    ],
+    stat: "24/7",
+    statLabel: "Automation Ready",
+    icon: (
+      <svg
+        viewBox="0 0 48 48"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+      >
+        <rect x="12" y="12" width="24" height="24" rx="6" />
+        <path d="M24 6v6M24 36v6M6 24h6M36 24h6" />
+        <circle cx="19" cy="22" r="1.5" fill="currentColor" />
+        <circle cx="29" cy="22" r="1.5" fill="currentColor" />
+        <path d="M18 29c2 2 10 2 12 0" />
+      </svg>
+    ),
+  },
+  {
+    num: "03",
+    title: "Mobile App Development",
+    sub: "Built for every screen",
+    desc: "We design and develop mobile applications for iOS and Android with a strong focus on performance, scalability, and user experience. Whether it is an MVP, a consumer app, or a business platform, we build mobile products ready for real-world growth.",
+    deliverables: [
+      "React Native Development",
+      "Flutter App Development",
+      "Cross-platform Architecture",
+      "API & Backend Integration",
+      "App Store Deployment Support",
+    ],
+    stat: "iOS + Android",
+    statLabel: "Production Ready",
+    icon: (
+      <svg
+        viewBox="0 0 48 48"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+      >
+        <rect x="14" y="4" width="20" height="40" rx="4" />
+        <line x1="20" y1="10" x2="28" y2="10" />
+        <circle cx="24" cy="36" r="1.5" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    num: "04",
     title: "Motion & 3D",
     sub: "Where code meets cinema",
     desc: "GSAP, Three.js, WebGL shaders. We bring depth and drama to digital experiences — interactive 3D scenes, scroll-driven storytelling, and animations that make people stop scrolling. Every interaction is calculated to delight without disrupting the user journey.",
@@ -63,7 +119,7 @@ const services = [
     ),
   },
   {
-    num: "03",
+    num: "05",
     title: "E-Commerce",
     sub: "Built to convert",
     desc: "Shopify Plus, custom storefronts, headless commerce. We design buying experiences that feel effortless — from first impression to repeat purchase. We blend conversion-rate optimization with cutting-edge design to elevate your brand's digital flagship store.",
@@ -90,7 +146,7 @@ const services = [
     ),
   },
   {
-    num: "04",
+    num: "06",
     title: "SaaS & Platforms",
     sub: "Complexity, tamed",
     desc: "We design and build SaaS products that handle real complexity gracefully. Between intense data visualization, complex onboarding flows, and secure multi-tenant architectures, we help you launch platforms that your users actually enjoy logging into.",
@@ -126,7 +182,7 @@ const techStack = [
     top: "10%",
     colorFrom: "#8B5CF6",
     colorTo: "#3B82F6",
-    icon: "https://cdn.simpleicons.org/react/ffffff",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
   },
   {
     name: "Next.js",
@@ -134,7 +190,7 @@ const techStack = [
     top: "18%",
     colorFrom: "#7C3AED",
     colorTo: "#A855F7",
-    icon: "https://cdn.simpleicons.org/nextdotjs/ffffff",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
   },
   {
     name: "TypeScript",
@@ -142,7 +198,7 @@ const techStack = [
     top: "8%",
     colorFrom: "#2563EB",
     colorTo: "#60A5FA",
-    icon: "https://cdn.simpleicons.org/typescript/ffffff",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
   },
   {
     name: "Node.js",
@@ -150,23 +206,24 @@ const techStack = [
     top: "12%",
     colorFrom: "#15803D",
     colorTo: "#4ADE80",
-    icon: "https://cdn.simpleicons.org/nodedotjs/ffffff",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
   },
+
   {
     name: "MERN",
     left: "80%",
     top: "22%",
     colorFrom: "#166534",
     colorTo: "#22C55E",
-    icon: "https://cdn.simpleicons.org/mongodb/ffffff",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
   },
   {
-    name: "AI / Python",
+    name: "Python",
     left: "10%",
     top: "40%",
     colorFrom: "#2563EB",
     colorTo: "#A855F7",
-    icon: "https://cdn.simpleicons.org/python/ffffff",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
   },
   {
     name: "Three.js",
@@ -174,15 +231,15 @@ const techStack = [
     top: "48%",
     colorFrom: "#7C3AED",
     colorTo: "#EC4899",
-    icon: "https://cdn.simpleicons.org/threedotjs/ffffff",
+    icon: "https://skillicons.dev/icons?i=threejs",
   },
   {
-    name: "Tailwind",
+    name: "Tailwind CSS",
     left: "54%",
     top: "38%",
     colorFrom: "#0891B2",
     colorTo: "#22D3EE",
-    icon: "https://cdn.simpleicons.org/tailwindcss/ffffff",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
   },
   {
     name: "AWS",
@@ -190,7 +247,7 @@ const techStack = [
     top: "50%",
     colorFrom: "#D97706",
     colorTo: "#F59E0B",
-    icon: "https://img.icons8.com/?size=48&id=33039&format=png",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
   },
   {
     name: "Shopify",
@@ -198,15 +255,7 @@ const techStack = [
     top: "72%",
     colorFrom: "#4D7C0F",
     colorTo: "#84CC16",
-    icon: "https://cdn.simpleicons.org/shopify/ffffff",
-  },
-  {
-    name: "WebGL",
-    left: "48%",
-    top: "72%",
-    colorFrom: "#6D28D9",
-    colorTo: "#C026D3",
-    icon: "https://cdn.simpleicons.org/webgl/ffffff",
+    icon: "https://cdn.worldvectorlogo.com/logos/shopify.svg",
   },
   {
     name: "Framer Motion",
@@ -214,73 +263,83 @@ const techStack = [
     top: "74%",
     colorFrom: "#7C3AED",
     colorTo: "#F472B6",
-    icon: "https://cdn.simpleicons.org/framer/ffffff",
+    icon: "https://cdn.worldvectorlogo.com/logos/framer-motion.svg",
+  },
+
+  // Added
+  {
+    name: "WordPress",
+    left: "6%",
+    top: "82%",
+    colorFrom: "#1E3A8A",
+    colorTo: "#3B82F6",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg",
+  },
+  {
+    name: "PHP",
+    left: "18%",
+    top: "60%",
+    colorFrom: "#4F46E5",
+    colorTo: "#818CF8",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+  },
+  {
+    name: "MySQL",
+    left: "36%",
+    top: "86%",
+    colorFrom: "#0F766E",
+    colorTo: "#2DD4BF",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+  },
+  {
+    name: "PostgreSQL",
+    left: "58%",
+    top: "86%",
+    colorFrom: "#1D4ED8",
+    colorTo: "#60A5FA",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+  },
+  {
+    name: "MongoDB",
+    left: "78%",
+    top: "84%",
+    colorFrom: "#14532D",
+    colorTo: "#22C55E",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+  },
+  {
+    name: "Docker",
+    left: "88%",
+    top: "60%",
+    colorFrom: "#0EA5E9",
+    colorTo: "#38BDF8",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+  },
+  {
+    name: "Firebase",
+    left: "30%",
+    top: "30%",
+    colorFrom: "#CA8A04",
+    colorTo: "#FACC15",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+  },
+  {
+    name: "GraphQL",
+    left: "50%",
+    top: "20%",
+    colorFrom: "#BE185D",
+    colorTo: "#F472B6",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
+  },
+  {
+    name: "GSAP",
+    left: "60%",
+    top: "65%",
+    colorFrom: "#84CC16",
+    colorTo: "#4D7C0F",
+    icon: "https://cdn.worldvectorlogo.com/logos/gsap-greensock.svg",
   },
 ];
-
-type TechChipProps = {
-  tech: (typeof techStack)[number];
-  constraintRef: React.RefObject<HTMLDivElement | null>;
-  index: number;
-};
-
-function TechChip({ tech, constraintRef, index }: TechChipProps) {
-  return (
-    <motion.div
-      drag
-      dragConstraints={constraintRef}
-      dragElastic={0.16}
-      dragMomentum={true}
-      dragTransition={{
-        bounceStiffness: 260,
-        bounceDamping: 22,
-      }}
-      initial={{ opacity: 0, y: 40, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: 0.45,
-        delay: index * 0.04,
-        ease: "easeOut",
-      }}
-      whileHover={{
-        scale: 1.06,
-        y: -4,
-        transition: { type: "spring", stiffness: 320, damping: 18 },
-      }}
-      whileTap={{
-        scale: 0.98,
-        cursor: "grabbing",
-      }}
-      className="absolute cursor-grab active:cursor-grabbing select-none"
-      style={{
-        left: tech.left,
-        top: tech.top,
-      }}
-    >
-      <div
-        className="group inline-flex items-center gap-3 rounded-full border px-5 py-3 shadow-[0_10px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-transform duration-300"
-        style={{
-          background: `linear-gradient(135deg, ${tech.colorFrom}, ${tech.colorTo})`,
-          borderColor: "rgba(255,255,255,0.14)",
-        }}
-      >
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/15">
-          <img
-            src={tech.icon}
-            alt={tech.name}
-            draggable={false}
-            className="pointer-events-none h-5 w-5 object-contain"
-          />
-        </div>
-
-        <span className="whitespace-nowrap text-sm md:text-[15px] font-semibold text-white tracking-[0.01em]">
-          {tech.name}
-        </span>
-      </div>
-    </motion.div>
-  );
-}
 
 export default function ServicesPage() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -623,7 +682,7 @@ export default function ServicesPage() {
                   key={tech.name}
                   className="flex items-center gap-4 border border-zinc-800 rounded-lg px-5 py-4 hover:bg-white/[0.03] transition"
                 >
-                  <img src={tech.icon} alt={tech.name} className="w-6 h-6" />
+                  <img src={tech.icon} alt={tech.name} className="w-8 h-8" />
 
                   <span className="text-white font-medium">{tech.name}</span>
                 </div>

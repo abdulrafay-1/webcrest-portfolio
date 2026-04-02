@@ -57,6 +57,50 @@ const services = [
   },
   {
     num: "03",
+    title: "AI Development",
+    sub: "Intelligence built into products",
+    desc: "We build AI-powered solutions that automate workflows, enhance customer experiences, and unlock smarter decision-making — from chatbots and assistants to custom machine learning integrations.",
+    tags: ["AI Automation", "Chatbots", "LLM Integrations", "Machine Learning"],
+    stat: "24/7",
+    statLabel: "Automation Ready",
+    icon: (
+      <svg
+        viewBox="0 0 48 48"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+      >
+        <rect x="12" y="12" width="24" height="24" rx="6" />
+        <path d="M24 6v6M24 36v6M6 24h6M36 24h6" />
+        <circle cx="19" cy="22" r="1.5" fill="currentColor" />
+        <circle cx="29" cy="22" r="1.5" fill="currentColor" />
+        <path d="M18 29c2 2 10 2 12 0" />
+      </svg>
+    ),
+  },
+  {
+    num: "04",
+    title: "Mobile App Development",
+    sub: "Built for every screen",
+    desc: "We create high-performance mobile applications for iOS and Android with seamless user experiences, scalable architecture, and production-ready code — from MVPs to full-scale cross-platform products.",
+    tags: ["React Native", "Flutter", "iOS & Android", "Scalable APIs"],
+    stat: "Cross-Platform",
+    statLabel: "Built to Scale",
+    icon: (
+      <svg
+        viewBox="0 0 48 48"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+      >
+        <rect x="14" y="4" width="20" height="40" rx="4" />
+        <line x1="20" y1="10" x2="28" y2="10" />
+        <circle cx="24" cy="36" r="1.5" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    num: "05",
     title: "Motion & 3D",
     sub: "Where code meets cinema",
     desc: "GSAP, Three.js, WebGL shaders. We bring depth and drama to digital experiences — interactive 3D scenes, scroll-driven storytelling, and animations that make people stop scrolling.",
@@ -77,7 +121,7 @@ const services = [
     ),
   },
   {
-    num: "04",
+    num: "06",
     title: "E-Commerce",
     sub: "Built to convert",
     desc: "Shopify Plus, custom storefronts, headless commerce. We design buying experiences that feel effortless — from first impression to repeat purchase.",
@@ -98,7 +142,7 @@ const services = [
     ),
   },
   {
-    num: "05",
+    num: "07",
     title: "SaaS & Platforms",
     sub: "Complexity, tamed",
     desc: "We design and build SaaS products that handle real complexity gracefully — dashboards, data visualization, onboarding flows, and multi-tenant architectures.",
