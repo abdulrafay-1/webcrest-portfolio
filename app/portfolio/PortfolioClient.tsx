@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -11,11 +11,11 @@ const projects = [
     category: "Brand Identity & Web",
     tab: "Branding",
     year: "2024",
-    tags: ["Design System", "Next.js", "Motion"],
+    tags: ["React.js", "Design System", "Motion"],
     image: "projects/iusblock.png",
     href: "https://iusblock.com",
     accent: "hsl(var(--primary))",
-    desc: "A complete visual identity for a luxury SaaS brand, from logo system to interactive design language.",
+    desc: "A premium SaaS brand system built with a scalable design language, motion-driven UI, and a high-performance React frontend, ensuring consistency across digital touchpoints.",
   },
   {
     id: "02",
@@ -23,11 +23,11 @@ const projects = [
     category: "A Stable Crypto E-Commerce Token",
     tab: "Crypto",
     year: "2024",
-    tags: ["Cryptocurrency", "Tokens", "Stable"],
+    tags: ["Next.js", "Cryptocurrency", "Web3"],
     image: "/projects/meetcoin.png",
     href: "https://meetcoin.io",
     accent: "hsl(var(--primary))",
-    desc: "An immersive e-commerce platform with real-time 3D product previews and augmented reality try-on.",
+    desc: "A blockchain-powered ecosystem token designed for marketplace transactions, enabling seamless crypto payments, low-fee transfers, and integration with a scalable Web3 infrastructure.",
   },
   {
     id: "03",
@@ -35,11 +35,11 @@ const projects = [
     category: "BlockChain & Crypto Wallet",
     tab: "Blockchain",
     year: "2023",
-    tags: ["React Native", "WebGL", "Real-time"],
+    tags: ["React Native", "Blockchain", "Crypto Wallet"],
     image: "/projects/pagomeet.png",
     href: "https://pagomeet.com",
     accent: "hsl(var(--primary))",
-    desc: "A data-dense operations platform that turns complex infrastructure metrics into beautiful clarity.",
+    desc: "A multi-chain crypto wallet with secure key management, ERC-4337 account abstraction, gasless transactions, and real-time balance tracking, built with React Native and Node.js backend.",
   },
   {
     id: "04",
@@ -47,11 +47,11 @@ const projects = [
     category: "A detailed website for Mercado Meet Ecommerce Mobile App",
     tab: "E-Commerce",
     year: "2023",
-    tags: ["Three.js", "GLSL", "Canvas"],
+    tags: ["React Native", "E-Commerce", "Mobile App"],
     image: "/projects/mercadomeet.png",
     href: "https://mercadomeet.com",
     accent: "hsl(var(--primary))",
-    desc: "A generative art installation that reacts to visitor movement, blending code with physical space.",
+    desc: "A full-scale marketplace ecosystem combining mobile commerce, real-time order workflows, WhatsApp automation, and integrated crypto payments, powering a scalable multi-vendor platform.",
   },
 ];
 
@@ -61,9 +61,16 @@ const whatsappMessage =
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
 export default function PortfolioSection() {
+  const [activeTab, setActiveTab] = useState("All");
   const sectionRef = useRef<HTMLElement | null>(null);
   const titleRef = useRef<HTMLDivElement | null>(null);
   const tabsRef = useRef<HTMLDivElement | null>(null);
+
+  const allTabs = ["All", ...projects.map((p) => p.tab)];
+  const visibleProjects =
+    activeTab === "All"
+      ? projects
+      : projects.filter((p) => p.tab === activeTab);
 
   useEffect(() => {
     const cleanups: Array<() => void> = [];
@@ -151,128 +158,24 @@ export default function PortfolioSection() {
         });
       }
 
-      const cards = sectionRef.current?.querySelectorAll(".pw-card");
+      const cards = sectionRef.current?.querySelectorAll(".pw-proj-card");
       const cardEls = Array.from(cards || []);
 
-      const activateTab = (idx: number) => {
-        tabsRef.current?.querySelectorAll(".pw-cat-tab").forEach((tab, ti) => {
-          tab.classList.toggle("active", ti === idx);
-        });
-      };
-
-      // Tab click → scroll to that project
-      tabsRef.current?.querySelectorAll(".pw-cat-tab").forEach((tab, ti) => {
-        const onClick = () =>
-          cardEls[ti]?.scrollIntoView({ behavior: "smooth" });
-        tab.addEventListener("click", onClick);
-        cleanups.push(() => tab.removeEventListener("click", onClick));
-      });
-
-      gsap.set(tabsRef.current, { opacity: 0, y: -16 });
-      let tabsVisible = false;
-
-      const showTabs = () => {
-        if (tabsVisible) return;
-        tabsVisible = true;
-        gsap.to(tabsRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power3.out",
-          overwrite: true,
-        });
-      };
-      const hideTabs = () => {
-        if (!tabsVisible) return;
-        tabsVisible = false;
-        gsap.to(tabsRef.current, {
-          opacity: 0,
-          y: -16,
-          duration: 0.4,
-          overwrite: true,
-        });
-      };
-
-      const lastCardIdx = cardEls.length - 1;
-
-      /* ── TEMPORARILY COMMENTED OUT: GSAP ScrollTrigger pin card animations ──
-      cards?.forEach((card, cardIdx) => {
-        const img = card.querySelector(".pw-card-img") as HTMLElement | null;
-        const content = card.querySelector(".pw-card-content") as HTMLElement | null;
-        const ghostNum = card.querySelector(".pw-ghost-num") as HTMLElement | null;
-        const accentLine = card.querySelector(".pw-accent-line") as HTMLElement | null;
-        const strips = card.querySelectorAll(".pw-strip");
-        strips.forEach((strip) => { gsap.set(strip, { clipPath: "inset(0% 0 0% 0)" }); });
-        if (content) gsap.set(content, { opacity: 0, y: 38 });
-        if (ghostNum) gsap.set(ghostNum, { opacity: 0, y: 20 });
-        if (accentLine) { gsap.set(accentLine, { scaleY: 0, transformOrigin: "top center" }); }
-        ScrollTrigger.create({
-          trigger: card, start: "top top", end: "+=190%",
-          pin: true, scrub: 1.4, anticipatePin: 1,
-          onEnter: () => { showTabs(); activateTab(cardIdx); },
-          onEnterBack: () => { showTabs(); activateTab(cardIdx); },
-          onLeave: () => { if (cardIdx === lastCardIdx) hideTabs(); },
-          onLeaveBack: () => { if (cardIdx === 0) hideTabs(); },
-          onUpdate: (self: { progress: number }) => {
-            if (self.progress > 0.01 && self.progress < 0.99) { showTabs(); activateTab(cardIdx); }
-            const p = self.progress;
-            if (img) { gsap.set(img, { y: -p * 55, scale: 1 + p * 0.06 }); }
-            if (ghostNum) {
-              const gnEnter = clamp((p - 0.05) / 0.45, 0, 1);
-              const gnExit = clamp((p - 0.68) / 0.32, 0, 1);
-              gsap.set(ghostNum, { opacity: easeExpoOut(gnEnter) * 0.055 * (1 - easeExpoOut(gnExit)), y: -p * 35 });
-            }
-            strips.forEach((strip, si) => {
-              const openRaw = clamp((p - si * 0.1) / 0.36, 0, 1);
-              gsap.set(strip, { clipPath: `inset(0% 0 ${easeExpoOut(openRaw) * 100}% 0)` });
-            });
-            if (content) {
-              const cEnter = clamp((p - 0.18) / 0.38, 0, 1);
-              const cExit = clamp((p - 0.68) / 0.32, 0, 1);
-              gsap.set(content, { opacity: Math.max(0, easePow4Out(cEnter) - easeExpoIn(cExit)), y: (1 - easePow4Out(cEnter)) * 38 - easeExpoIn(cExit) * 42 });
-            }
-            if (accentLine) {
-              const alP = clamp((p - 0.18) / 0.45, 0, 1);
-              const alOut = clamp((p - 0.68) / 0.32, 0, 1);
-              gsap.set(accentLine, { scaleY: easeExpoOut(alP) * (1 - easeExpoIn(alOut)), opacity: easeExpoOut(alP) * (1 - easeExpoIn(alOut)) });
-            }
+      // Stagger cards in on load
+      if (cardEls.length) {
+        gsap.fromTo(
+          cardEls,
+          { opacity: 0, y: 32 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.1,
+            duration: 0.7,
+            ease: "power3.out",
+            delay: 0.3,
           },
-        });
-      });
-      ── END TEMPORARILY COMMENTED OUT ── */
-
-      // CSS card entry animations driven by IntersectionObserver
-      const cardsContainer = sectionRef.current?.querySelector(".pw-cards");
-      const cardObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const idx = parseInt(
-              (entry.target as HTMLElement).dataset.idx ?? "0",
-              10,
-            );
-            if (entry.isIntersecting) {
-              entry.target.classList.add("in-view");
-              showTabs();
-              activateTab(idx);
-            }
-          });
-        },
-        { threshold: 0.2, rootMargin: "0px 0px -4% 0px" },
-      );
-      cardEls.forEach((el) => cardObserver.observe(el));
-
-      const containerObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) hideTabs();
-        },
-        { threshold: 0 },
-      );
-      if (cardsContainer) containerObserver.observe(cardsContainer);
-
-      cleanups.push(() => {
-        cardObserver.disconnect();
-        containerObserver.disconnect();
-      });
+        );
+      }
 
       const canHover = window.matchMedia(
         "(hover: hover) and (pointer: fine)",
@@ -503,131 +406,178 @@ export default function PortfolioSection() {
         .pw-prog-seg.active::after { transform: scaleY(1); }
         ── END TEMPORARILY COMMENTED OUT ── */
 
-        /* ── New smooth CSS card layout ── */
-        .pw-cards { position: relative; }
-
-        .pw-card {
-          position: relative;
-          display: grid;
-          grid-template-columns: 52% 48%;
-          grid-template-areas: "text media";
-          min-height: 88vh;
-          border-top: 1px solid hsl(var(--border) / 0.25);
-          overflow: hidden;
+        /* ── Showcase: thumb strip + stage ── */
+        .pw-filter-bar {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 40px 36px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+        .pw-filter-tabs {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+        .pw-filter-tab {
+          font-size: 12px;
+          font-family: inherit;
+          letter-spacing: 0.04em;
+          padding: 8px 20px;
+          border-radius: 100px;
+          border: 1px solid hsl(var(--border) / 0.4);
+          background: transparent;
+          color: hsl(var(--muted-foreground));
           cursor: pointer;
-          background: hsl(var(--background));
+          transition: background 0.25s, color 0.25s, border-color 0.25s;
+          white-space: nowrap;
         }
-        .pw-card--flip {
-          grid-template-columns: 48% 52%;
-          grid-template-areas: "media text";
+        .pw-filter-tab:hover {
+          background: hsl(var(--foreground) / 0.06);
+          color: hsl(var(--foreground));
+          border-color: hsl(var(--border) / 0.65);
         }
-        .pw-card-text {
-          grid-area: text;
-          display: flex; flex-direction: column; justify-content: center;
-          padding: 80px 72px 80px 80px;
-          position: relative; z-index: 2;
+        .pw-filter-tab.active {
+          background: hsl(var(--foreground));
+          color: hsl(var(--background));
+          border-color: hsl(var(--foreground));
         }
-        .pw-card--flip .pw-card-text { padding: 80px 80px 80px 64px; }
 
-        .pw-card-media {
-          grid-area: media;
-          position: relative; overflow: hidden;
-          clip-path: inset(0 100% 0 0);
-          transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+        /* ── Grid ── */
+        .pw-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 40px 80px;
         }
-        .pw-card--flip .pw-card-media {
-          clip-path: inset(0 0 0 100%);
-        }
-        .pw-card.in-view .pw-card-media {
-          clip-path: inset(0 0% 0 0);
-        }
-        .pw-card--flip.in-view .pw-card-media {
-          clip-path: inset(0 0 0 0%);
-        }
-        .pw-card-media-overlay {
-          position: absolute; inset: 0;
-          background: linear-gradient(135deg, hsl(var(--background)/0.18) 0%, transparent 60%);
-          z-index: 1; pointer-events: none;
-        }
-        .pw-card-img {
-          width: 100%; height: 100%; object-fit: cover;
-          transform: scale(1.1);
-          transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-          display: block;
-        }
-        .pw-card.in-view .pw-card-img { transform: scale(1); }
-        .pw-card:hover .pw-card-img { transform: scale(1.05); }
 
-        /* Per-element enter animations */
-        .pw-card-num,
-        .pw-card-cat,
-        .pw-card-title,
-        .pw-card-desc,
-        .pw-card-tags,
-        .pw-card-link {
-          opacity: 0;
-          transform: translateY(28px);
-          transition:
-            opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-            transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        /* ── Project card ── */
+        .pw-proj-card {
+          display: flex;
+          flex-direction: column;
+          background: hsl(var(--foreground) / 0.03);
+          border: 1px solid hsl(var(--border) / 0.35);
+          border-radius: 14px;
+          padding: 24px;
+          transition: border-color 0.3s, background 0.3s, transform 0.3s;
+          cursor: default;
+          gap: 14px;
         }
-        .pw-card.in-view .pw-card-num   { opacity: 1; transform: none; transition-delay: 0.08s; }
-        .pw-card.in-view .pw-card-cat   { opacity: 1; transform: none; transition-delay: 0.18s; }
-        .pw-card.in-view .pw-card-title { opacity: 1; transform: none; transition-delay: 0.26s; }
-        .pw-card.in-view .pw-card-desc  { opacity: 1; transform: none; transition-delay: 0.36s; }
-        .pw-card.in-view .pw-card-tags  { opacity: 1; transform: none; transition-delay: 0.44s; }
-        .pw-card.in-view .pw-card-link  { opacity: 1; transform: none; transition-delay: 0.52s; }
-
-        .pw-card-num {
-          font-size: 10px; letter-spacing: 0.42em; text-transform: uppercase;
-          color: hsl(var(--muted-foreground) / 0.45); margin-bottom: 22px;
+        .pw-proj-card:hover {
+          border-color: hsl(var(--border) / 0.7);
+          background: hsl(var(--foreground) / 0.05);
+          transform: translateY(-3px);
         }
-        .pw-card-cat {
-          font-size: 10px; letter-spacing: 0.38em; text-transform: uppercase;
-          color: hsl(var(--muted-foreground)); margin-bottom: 14px;
-          display: flex; align-items: center; gap: 14px;
+        .pw-proj-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
-        .pw-card-cat-line {
-          display: inline-block; height: 1px; width: 0;
-          background: hsl(var(--primary)); flex-shrink: 0;
-          transition: width 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.22s;
+        .pw-proj-year {
+          font-size: 11px;
+          color: hsl(var(--muted-foreground) / 0.5);
+          letter-spacing: 0.04em;
         }
-        .pw-card.in-view .pw-card-cat-line { width: 28px; }
-        .pw-card-title {
-          font-size: clamp(40px, 5.2vw, 78px); font-weight: 600;
-          line-height: 0.94; letter-spacing: -0.03em;
-          color: hsl(var(--foreground)); margin-bottom: 22px;
-        }
-        .pw-card-desc {
-          font-size: 14px; line-height: 1.75;
-          color: hsl(var(--muted-foreground)); max-width: 400px;
-          margin-bottom: 30px; font-weight: 300;
-        }
-        .pw-card-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 32px; }
-        .pw-card-tag {
-          font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
-          padding: 5px 14px; border-radius: 100px;
-          color: hsl(var(--foreground) / 0.6);
+        .pw-proj-badge {
+          font-size: 9px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          padding: 4px 11px;
+          border-radius: 100px;
           border: 1px solid hsl(var(--border) / 0.5);
-          backdrop-filter: blur(4px);
+          color: hsl(var(--muted-foreground));
+          background: hsl(var(--foreground) / 0.04);
         }
-        .pw-card-link {
-          display: inline-flex; align-items: center; gap: 9px;
-          font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
-          color: hsl(var(--foreground) / 0.7);
-          border-bottom: 1px solid hsl(var(--border) / 0.5);
-          padding-bottom: 6px; width: fit-content;
+        .pw-proj-title {
+          font-size: clamp(18px, 1.8vw, 24px);
+          font-weight: 700;
+          letter-spacing: -0.02em;
+          color: hsl(var(--foreground));
+          line-height: 1.15;
+          margin: 0;
+        }
+        .pw-proj-desc {
+          font-size: 13px;
+          line-height: 1.7;
+          color: hsl(var(--muted-foreground));
+          font-weight: 300;
+          margin: 0;
+          flex: 1;
+        }
+        .pw-proj-image-wrap {
+          width: 100%;
+          height: 170px;
+          border-radius: 9px;
+          overflow: hidden;
+          background: hsl(var(--foreground) / 0.06);
+        }
+        .pw-proj-img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .pw-proj-card:hover .pw-proj-img { transform: scale(1.05); }
+        .pw-proj-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
+        .pw-proj-tag {
+          font-size: 9px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          padding: 4px 11px;
+          border-radius: 100px;
+          border: 1px solid hsl(var(--border) / 0.4);
+          color: hsl(var(--foreground) / 0.55);
+        }
+        .pw-proj-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-top: 14px;
+          border-top: 1px solid hsl(var(--border) / 0.25);
+          margin-top: auto;
+        }
+        .pw-proj-ext {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 34px; height: 34px;
+          border-radius: 9px;
+          border: 1px solid hsl(var(--border) / 0.4);
+          color: hsl(var(--muted-foreground));
           text-decoration: none;
-          transition: color 0.3s, border-color 0.3s, gap 0.3s;
+          transition: border-color 0.25s, color 0.25s, background 0.25s;
         }
-        .pw-card-link:hover { color: hsl(var(--primary)); border-color: hsl(var(--primary) / 0.5); gap: 13px; }
-        .pw-card-year {
-          position: absolute; top: 32px; right: 40px; z-index: 3;
-          font-size: 9px; letter-spacing: 0.42em; text-transform: uppercase;
-          color: hsl(var(--muted-foreground) / 0.28);
-          opacity: 0; transition: opacity 0.6s 0.5s;
+        .pw-proj-ext:hover {
+          border-color: hsl(var(--primary) / 0.5);
+          color: hsl(var(--primary));
+          background: hsl(var(--primary) / 0.06);
         }
-        .pw-card.in-view .pw-card-year { opacity: 1; }
+        .pw-proj-details {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          color: hsl(var(--foreground) / 0.65);
+          text-decoration: none;
+          transition: color 0.25s, gap 0.25s;
+        }
+        .pw-proj-details:hover { color: hsl(var(--foreground)); gap: 10px; }
+
+        @media (max-width: 1024px) {
+          .pw-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+          .pw-grid { grid-template-columns: 1fr; padding: 0 20px 60px; }
+          .pw-filter-bar { padding: 0 20px 28px; }
+        }
 
         .pw-footer {
           background: hsl(var(--background));
@@ -674,105 +624,15 @@ export default function PortfolioSection() {
           .pw-intro-right { text-align: left; }
           .pw-scroll-hint { padding: 0 24px 36px; }
           .pw-footer { padding: 60px 24px 80px; flex-direction: column; align-items: flex-start; }
-          .pw-card {
-            grid-template-columns: 1fr;
-            grid-template-areas: "media" "text";
-            min-height: auto;
-          }
-          .pw-card--flip {
-            grid-template-columns: 1fr;
-            grid-template-areas: "media" "text";
-          }
-          .pw-card-media { height: 56vw; min-height: 220px; clip-path: inset(0 0 100% 0) !important; }
-          .pw-card.in-view .pw-card-media { clip-path: inset(0 0 0% 0) !important; }
-          .pw-card-text, .pw-card--flip .pw-card-text { padding: 40px 24px 48px; }
-          .pw-card-year { top: 16px; right: 20px; }
         }
         @media (hover: none), (pointer: coarse) {
           .pw-cursor { display: none !important; }
         }
 
-        /* ── Category tab bar ── */
-        .pw-cat-tabs {
-          position: fixed;
-          top: 58px;
-          left: 0;
-          right: 0;
-          margin: 0 auto;
-          width: fit-content;
-          z-index: 200;
-          display: flex;
-          gap: 4px;
-          background: hsl(var(--background) / 0.72);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid hsl(var(--border) / 0.35);
-          border-radius: 100px;
-          padding: 5px;
-          pointer-events: none;
-          will-change: opacity, transform;
-        }
-        .pw-cat-tab {
-          font-size: 10px;
-          letter-spacing: 0.32em;
-          text-transform: uppercase;
-          color: hsl(var(--muted-foreground) / 0.45);
-          padding: 6px 16px;
-          border-radius: 100px;
-          border: none;
-          background: transparent;
-          cursor: pointer;
-          pointer-events: auto;
-          transition: color 0.35s, background 0.35s;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          white-space: nowrap;
-          font-family: inherit;
-          user-select: none;
-        }
-        .pw-cat-tab-dot {
-          width: 4px;
-          height: 4px;
-          border-radius: 50%;
-          background: hsl(var(--muted-foreground) / 0.18);
-          transition: background 0.35s, transform 0.35s;
-          flex-shrink: 0;
-        }
-        .pw-cat-tab.active {
-          color: hsl(var(--foreground) / 0.85);
-          background: hsl(var(--foreground) / 0.07);
-        }
-        .pw-cat-tab.active .pw-cat-tab-dot {
-          background: hsl(var(--primary));
-          transform: scale(1.35);
-        }
-        @media (max-width: 768px) {
-          .pw-cat-tabs {
-            top: 56px;
-            max-width: calc(100vw - 32px);
-          }
-          .pw-cat-tab {
-            font-size: 8px;
-            padding: 5px 10px;
-            letter-spacing: 0.18em;
-            gap: 6px;
-          }
-        }
       `}</style>
 
       <div className="pw-cursor">
         <span className="pw-cursor-text">Visit ↗</span>
-      </div>
-
-      {/* Sticky category tab indicator */}
-      <div className="pw-cat-tabs" ref={tabsRef}>
-        {projects.map((p, i) => (
-          <div key={p.id} className={`pw-cat-tab${i === 0 ? " active" : ""}`}>
-            <span className="pw-cat-tab-dot" />
-            {p.tab}
-          </div>
-        ))}
       </div>
 
       <section id="work" className="pw-section" ref={sectionRef}>
@@ -818,43 +678,75 @@ export default function PortfolioSection() {
           </svg>
         </div>
 
-        <div className="pw-cards">
-          {projects.map((p, i) => (
-            <div
-              key={p.id}
-              className={`pw-card${i % 2 === 1 ? " pw-card--flip" : ""}`}
-              data-idx={i}
-              data-href={p.href}
-            >
-              {/* Text side */}
-              <div className="pw-card-text">
-                <span className="pw-card-num">
-                  {p.id} / {String(projects.length).padStart(2, "0")}
-                </span>
-                <div className="pw-card-cat">
-                  <span className="pw-card-cat-line" />
-                  {p.category}
-                </div>
-                <h3 className="pw-card-title">{p.title}</h3>
-                <p className="pw-card-desc">{p.desc}</p>
-                <div className="pw-card-tags">
-                  {p.tags.map((t) => (
-                    <span key={t} className="pw-card-tag">
-                      {t}
-                    </span>
-                  ))}
-                </div>
+        {/* Filter tabs + grid */}
+        <div className="pw-filter-bar">
+          <div className="pw-filter-tabs" ref={tabsRef}>
+            {allTabs.map((tab) => (
+              <button
+                key={tab}
+                className={`pw-filter-tab${activeTab === tab ? " active" : ""}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="pw-grid">
+          {visibleProjects.map((p) => (
+            <div key={p.id} className="pw-proj-card">
+              <div className="pw-proj-top">
+                <span className="pw-proj-year">{p.year}</span>
+                <span className="pw-proj-badge">{p.tab}</span>
+              </div>
+              <h3 className="pw-proj-title">{p.title}</h3>
+              <p className="pw-proj-desc">{p.desc}</p>
+              <div className="pw-proj-image-wrap">
+                <img src={p.image} alt={p.title} className="pw-proj-img" />
+              </div>
+              <div className="pw-proj-tags">
+                {p.tags.map((t) => (
+                  <span key={t} className="pw-proj-tag">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div className="pw-proj-footer">
                 <a
                   href={p.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="pw-card-link"
-                  onClick={(e) => e.stopPropagation()}
+                  className="pw-proj-ext"
+                  aria-label="Open project"
                 >
-                  View Project
                   <svg
                     width="14"
                     height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path
+                      d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pw-proj-details"
+                >
+                  View Details
+                  <svg
+                    width="12"
+                    height="12"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -868,14 +760,6 @@ export default function PortfolioSection() {
                   </svg>
                 </a>
               </div>
-
-              {/* Image side */}
-              <div className="pw-card-media">
-                <img src={p.image} alt={p.title} className="pw-card-img" />
-                <div className="pw-card-media-overlay" />
-              </div>
-
-              <span className="pw-card-year">{p.year}</span>
             </div>
           ))}
         </div>
