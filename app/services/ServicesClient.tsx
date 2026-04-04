@@ -208,7 +208,6 @@ const techStack = [
     colorTo: "#4ADE80",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
   },
-
   {
     name: "MERN",
     left: "80%",
@@ -265,8 +264,6 @@ const techStack = [
     colorTo: "#F472B6",
     icon: "https://cdn.worldvectorlogo.com/logos/framer-motion.svg",
   },
-
-  // Added
   {
     name: "WordPress",
     left: "6%",
@@ -338,6 +335,46 @@ const techStack = [
     colorFrom: "#84CC16",
     colorTo: "#4D7C0F",
     icon: "https://cdn.worldvectorlogo.com/logos/gsap-greensock.svg",
+  },
+  {
+    name: "Express.js",
+    left: "12%",
+    top: "22%",
+    colorFrom: "#111827",
+    colorTo: "#6B7280",
+    icon: "https://skillicons.dev/icons?i=express",
+  },
+  {
+    name: "PHP",
+    left: "18%",
+    top: "60%",
+    colorFrom: "#4F46E5",
+    colorTo: "#818CF8",
+    icon: "https://skillicons.dev/icons?i=php",
+  },
+  {
+    name: "Laravel",
+    left: "84%",
+    top: "38%",
+    colorFrom: "#DC2626",
+    colorTo: "#F87171",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
+  },
+  {
+    name: "C#",
+    left: "46%",
+    top: "68%",
+    colorFrom: "#7C3AED",
+    colorTo: "#A78BFA",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",
+  },
+  {
+    name: "C++",
+    left: "90%",
+    top: "78%",
+    colorFrom: "#1D4ED8",
+    colorTo: "#93C5FD",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
   },
 ];
 
